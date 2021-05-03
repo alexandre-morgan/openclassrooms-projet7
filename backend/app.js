@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-const { getAllArticle, getOneArticle, deleteOneArticle, addArticle } = require('./controllers/articles');
+const { getAllArticle, getOneArticle, deleteOneArticle, addArticle, updateArticle } = require('./controllers/articlesR');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -16,13 +16,14 @@ app.use((req, res, next) => {
     next();
   });
 
-app.post('/api/articles', addArticle);
+app.post('/api/articlesR', addArticle);
 
-app.get('/api/articles', getAllArticle);
+app.put('/api/articlesR/:id', updateArticle);
 
-app.get('/api/articles/:id', getOneArticle);
+app.get('/api/articlesR', getAllArticle);
 
-app.delete('/api/articles/:id', deleteOneArticle);
+app.get('/api/articlesR/:id', getOneArticle);
 
+app.delete('/api/articlesR/:id', deleteOneArticle);
 
 module.exports = app;

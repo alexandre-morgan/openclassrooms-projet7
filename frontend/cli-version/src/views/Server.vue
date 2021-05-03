@@ -14,7 +14,6 @@
                 </div>
             </div>
         </div>
-        <button class="button" @click="doPost">POST</button>
     </div>
 </template>
 
@@ -35,19 +34,6 @@ export default ({
             }, (response) => {
                 console.log('erreur', response)
             })
-        },
-        doPost() {
-            this.$http.post('http://localhost:3000/api/stuff', {
-
-            }).then(() => {
-                this.getData()
-            }, (response) => {
-                console.log('erreur', response)
-            })
-        },
-        redirect(data) {
-            console.log(data);
-            this.$router.push("/about")
         },
         deleteArticle(idArticle) {
             this.$http.delete('http://localhost:3000/api/articles/' + idArticle, {

@@ -4,7 +4,13 @@
         <form>
             <div class="form-group">
                 <label for="title">Titre</label>
-                <input type="text" placeholder="Titre de l'article?" id="title" formControlName="title" class="form-control">
+                <input type="text" 
+                        placeholder="Titre de l'article?" 
+                        id="title" 
+                        formControlName="title" 
+                        class="form-control"
+                        v-model="article.title" >
+            <div> {{ article.title }} </div>
             </div>
             <div class="form-group">
                 <label for="content">Description</label>
@@ -13,9 +19,11 @@
                             cols="30" rows="7"
                             class="form-control"
                             formControlName="content"
-                            placeholder="Contenu de l'article"></textarea>
+                            placeholder="Contenu de l'article"
+                            v-model="article.content"></textarea>
             </div>
-            <button class="btn btn-success" >Valider</button>
+            <div> {{ article.content }} </div>
+            <button class="btn btn-success" @click="doPost">Valider</button>
         </form>
     </div>
 </div>
@@ -23,14 +31,24 @@
 
 <script>
 export default {
-    doPost() {
-        this.$http.post('http://localhost:3000/api/articles', {
-
-        }).then((response) => {
-            console.log(response)
-        }, (response) => {
-            console.log('erreur', response)
-        })
+    data() {
+        return {
+            article: {
+                title: "",
+                content: ""
+            }
+        }
+    },
+    methods: {
+        doPost(e) {
+            e.preventDefault();
+            this.$http.post('http://localhost:3000/api/articles', this.article).then((response) => {
+                console.log(response)
+                this.$router.push("/server")
+            }, (response) => {
+                console.log('erreur', response)
+            })
+        }
     }
 }
 </script>
