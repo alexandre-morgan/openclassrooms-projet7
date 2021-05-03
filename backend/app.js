@@ -5,8 +5,9 @@ const bodyParser = require('body-parser');
 const app = express();
 
 const articlesRRoutes = require('./routes/articleR');
-
 const articles9Routes = require('./routes/article9');
+const usersRoutes = require('./routes/users');
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -22,6 +23,8 @@ app.use((req, res, next) => {
 app.use('/api/articlesR', articlesRRoutes);
 
 app.use('/api/articles9', articles9Routes);
+
+app.use('/api/users', usersRoutes);
 
 
 module.exports = app;

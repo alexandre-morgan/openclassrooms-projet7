@@ -13,16 +13,16 @@
             <div> {{ article.title }} </div>
             </div>
             <div class="form-group">
-                <label for="content">Description</label>
-                <textarea name="content"
-                            id="content"
+                <label for="imageUrl">URL de l'image</label>
+                <textarea name="imageUrl"
+                            id="imageUrl"
                             cols="30" rows="7"
                             class="form-control"
-                            formControlName="content"
+                            formControlName="imageUrl"
                             placeholder="Contenu de l'article"
-                            v-model="article.content"></textarea>
+                            v-model="article.imageUrl"></textarea>
             </div>
-            <div> {{ article.content }} </div>
+            <div> {{ article.imageUrl }} </div>
             <button class="btn btn-success" @click="doPost">Valider</button>
         </form>
     </div>
@@ -31,20 +31,21 @@
 
 <script>
 export default {
+    name: 'Articles9Form',
     data() {
         return {
             article: {
                 title: "",
-                content: ""
+                imageUrl: ""
             }
         }
     },
     methods: {
         doPost(e) {
             e.preventDefault();
-            this.$http.post('http://localhost:3000/api/articlesR', this.article).then((response) => {
+            this.$http.post('http://localhost:3000/api/articles9', this.article).then((response) => {
                 console.log(response)
-                this.$router.push("/reddit")
+                this.$router.push("/9gag")
             }, (response) => {
                 console.log('erreur', response)
             })

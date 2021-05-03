@@ -6,12 +6,12 @@
         <hr>
 
         <label for="email"><b>Email</b></label>
-        <input type="text" placeholder="Entrez votre courriel" id="email" name="email" required>
+        <input type="text" placeholder="Entrez votre email" id="email" name="email" required v-model="user.email">
 
         <label for="psw"><b>Mot de passe</b></label>
-        <input type="password" placeholder="Entrez votre mot de passe" id="psw" name="psw" required>
+        <input type="password" placeholder="Entrez votre mot de passe" id="psw" name="psw" required v-model="user.password">
 
-        <p><button type="submit">Se connecter</button></p>
+        <p><button @click="login">Se connecter</button></p>
     </form>
     </div>
 </template>
@@ -21,6 +21,25 @@ export default {
     name: 'LoginForm',
     props: {
         title: String
+    },
+    data() {
+      return {
+        user: {
+          email: '',
+          password: ''
+        }
+      }
+    },
+    methods: {
+      login(e) {
+        e.preventDefault();
+        this.$http.post('http://localhost:3000/api/users', this.user).then((response) => {
+          console.log(response)
+          this.$router.push("/reddit")
+        }, (response) => {
+          console.log('erreur', response)
+        })
+      }
     }
 }
 </script>

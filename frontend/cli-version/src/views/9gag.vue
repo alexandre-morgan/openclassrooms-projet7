@@ -1,10 +1,11 @@
 <template>
-  <div class="server" id="server-page">
+  <div class="9gag" id="9gag-page">
         This is the "9gag" page
         <h2>Récupération des données</h2>
         <div class="card-group">
             <div class="card w-50" v-for="item in articles9" :key="item.idArticle">
                 <!-- @click="redirect(item.id) -->
+                <img :src="item.imageUrl" class="card-img-top" :alt="item.title">
                 <div class="card-body">
                     <h5 class="card-title"> {{ item.title }} </h5>
                     <h6 class="card-subtitle mb-2 text-muted">ID : {{ item.idArticle }}</h6>
@@ -14,15 +15,22 @@
                 </div>
             </div>
         </div>
+        <h3>Ajouter un article 9gag</h3>
+        <Articles9Form/>
     </div>
 </template>
 
 <script>
+import Articles9Form from '@/components/Articles9Form.vue'
+
 export default ({
     data() {
         return {
             articles9: []
         }
+    },
+    components: {
+        Articles9Form
     },
     mounted() {
         this.getData()

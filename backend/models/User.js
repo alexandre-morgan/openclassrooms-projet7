@@ -1,16 +1,23 @@
-const db = require('../services/db');
+const {executeSql} = require('../services/db');
 
-export default class User {
+class User {
         idUser = null;
         email = '';
         password = '';
-        lastName = '';
-        firstName = '';
+
+        constructor(data = null) {
+            if(data != null) {
+                if(data.email) this.email = data.email;
+                if(data.password) this.password = data.password;
+            }
+        };
+
+
 
         addUser() {
-            let sql = `INSERT INTO users (idUser, email, password, lastName, firstName) 
-            VALUES (NULL, "${this.email}", "${this.password}", "${this.lastName}", "${this.firstName}")`;
-            console.log(sql);
-            db.query(sql);
+            let sqlQuery = `INSERT INTO users (idUser, email, password) 
+            VALUES (NULL, "${this.email}", "${this.password}")`;
+            return executeSql(sqlQuery);
         }
 }
+module.exports = User;
