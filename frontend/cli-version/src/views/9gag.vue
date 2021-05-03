@@ -1,9 +1,9 @@
 <template>
   <div class="server" id="server-page">
-        This is the server page
+        This is the "9gag" page
         <h2>Récupération des données</h2>
         <div class="card-group">
-            <div class="card w-50" v-for="item in articles" :key="item.idArticle">
+            <div class="card w-50" v-for="item in articles9" :key="item.idArticle">
                 <!-- @click="redirect(item.id) -->
                 <div class="card-body">
                     <h5 class="card-title"> {{ item.title }} </h5>
@@ -21,7 +21,7 @@
 export default ({
     data() {
         return {
-            articles: []
+            articles9: []
         }
     },
     mounted() {
@@ -29,18 +29,18 @@ export default ({
     },
     methods: {
         getData() {
-            this.$http.get('http://localhost:3000/api/articles').then((response) => {
-                this.articles = response.data
+            this.$http.get('http://localhost:3000/api/articles9').then((response) => {
+                this.articles9 = response.data
             }, (response) => {
                 console.log('erreur', response)
             })
         },
         deleteArticle(idArticle) {
-            this.$http.delete('http://localhost:3000/api/articles/' + idArticle, {
-                
-            }).then(() => {
+            this.$http.delete('http://localhost:3000/api/articles9/' + idArticle).then(() => {
                 this.getData()
-            })
+            }, (response) => {
+                console.log('erreur', response)
+            }) 
         }
     },
 })

@@ -3,7 +3,8 @@
         <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
-      <router-link to="/server">Server</router-link> |
+      <router-link to="/reddit">Reddit</router-link> |
+      <router-link to="/9gag">9gag</router-link> |
       <router-link to="/login">Login</router-link> |
       <router-link to="/new-article">Ajouter un article</router-link>
     </div>

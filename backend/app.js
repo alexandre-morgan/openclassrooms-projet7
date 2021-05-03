@@ -4,7 +4,9 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-const { getAllArticle, getOneArticle, deleteOneArticle, addArticle, updateArticle } = require('./controllers/articlesR');
+const articlesRRoutes = require('./routes/articleR');
+
+const articles9Routes = require('./routes/article9');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -16,14 +18,10 @@ app.use((req, res, next) => {
     next();
   });
 
-app.post('/api/articlesR', addArticle);
+// Routes
+app.use('/api/articlesR', articlesRRoutes);
 
-app.put('/api/articlesR/:id', updateArticle);
+app.use('/api/articles9', articles9Routes);
 
-app.get('/api/articlesR', getAllArticle);
-
-app.get('/api/articlesR/:id', getOneArticle);
-
-app.delete('/api/articlesR/:id', deleteOneArticle);
 
 module.exports = app;

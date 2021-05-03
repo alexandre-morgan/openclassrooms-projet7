@@ -19,12 +19,28 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
-    path: '/server',
-    name: 'Server',
+    path: '/reddit',
+    name: 'Reddit',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Server.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/Reddit.vue')
+  },
+  {
+    path: '/reddit/:idArticle',
+    name: 'RedditOne',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/Reddit.vue')
+  },
+  {
+    path: '/9gag',
+    name: '9gag',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/9gag.vue')
   },
   {
     path: '/login',
