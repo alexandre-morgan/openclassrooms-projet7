@@ -1,9 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
+const auth = require('../middleware/auth');
+
 const usersCtrl = require('../controllers/users');
 
-router.post('/', usersCtrl.addUser);
+router.post('/signup', usersCtrl.signUp);
+
+router.post('/login', usersCtrl.logIn);
+
 
 // router.put('/:id', articlesRCtrl.updateArticle);
 

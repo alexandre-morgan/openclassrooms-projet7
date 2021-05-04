@@ -1,7 +1,7 @@
 <template>
 <div class="new-article">
     <div class="col-sm-6 offset-sm-3 mt-2">
-        <form>
+        <form @submit="doPost">
             <div class="form-group">
                 <label for="title">Titre</label>
                 <input type="text" 
@@ -23,7 +23,7 @@
                             v-model="article.content"></textarea>
             </div>
             <div> {{ article.content }} </div>
-            <button class="btn btn-success" @click="doPost">Valider</button>
+            <input class="btn btn-success" type="submit" value="submit"/>
         </form>
     </div>
 </div>
@@ -41,11 +41,14 @@ export default {
         }
     },
     methods: {
+        getData() {
+            this.$parent.getData();
+        },
         doPost(e) {
             e.preventDefault();
             this.$http.post('http://localhost:3000/api/articlesR', this.article).then((response) => {
                 console.log(response)
-                this.$router.push("/reddit")
+                this.getData();
             }, (response) => {
                 console.log('erreur', response)
             })

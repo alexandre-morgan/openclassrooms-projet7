@@ -1,9 +1,11 @@
+const { response } = require('express');
 const {executeSql} = require('../services/db');
 
 class User {
         idUser = null;
         email = '';
         password = '';
+        dateOfCreation = '';
 
         constructor(data = null) {
             if(data != null) {
@@ -12,12 +14,14 @@ class User {
             }
         };
 
-
-
         addUser() {
-            let sqlQuery = `INSERT INTO users (idUser, email, password) 
-            VALUES (NULL, "${this.email}", "${this.password}")`;
+            let sqlQuery = `INSERT INTO users (idUser, email, password, dateOfCreation) 
+            VALUES (NULL, "${this.email}", "${this.password}", NOW())`;
             return executeSql(sqlQuery);
         }
+        findOne() {
+            let sqlQuery = `SELECT * FROM users WHERE email = "${this.email}" `;
+            return executeSql(sqlQuery);
+        }       
 }
 module.exports = User;

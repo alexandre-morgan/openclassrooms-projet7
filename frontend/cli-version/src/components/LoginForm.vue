@@ -33,11 +33,10 @@ export default {
     methods: {
       login(e) {
         e.preventDefault();
-        this.$http.post('http://localhost:3000/api/users', this.user).then((response) => {
-          console.log(response)
+        this.$http.post('http://localhost:3000/api/users/login', this.user).then(() => {
           this.$router.push("/reddit")
-        }, (response) => {
-          console.log('erreur', response)
+        }).catch((error) => {
+          alert(error.body.error)
         })
       }
     }

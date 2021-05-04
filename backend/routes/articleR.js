@@ -1,9 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
+const auth = require('../middleware/auth');
+const multer = require('../middleware/multer-config');
+
 const articlesRCtrl = require('../controllers/articlesR');
 
-router.post('/', articlesRCtrl.addArticle);
+router.post('/', multer, articlesRCtrl.addArticle);
 
 router.put('/:id', articlesRCtrl.updateArticle);
 

@@ -10,19 +10,11 @@
                         formControlName="title" 
                         class="form-control"
                         v-model="article.title" >
-            <div> {{ article.title }} </div>
             </div>
             <div class="form-group">
-                <label for="imageUrl">URL de l'image</label>
-                <textarea name="imageUrl"
-                            id="imageUrl"
-                            cols="30" rows="7"
-                            class="form-control"
-                            formControlName="imageUrl"
-                            placeholder="Contenu de l'article"
-                            v-model="article.imageUrl"></textarea>
+                <label for="imageUrl">Image</label>
+                <input type="file" @change="onFileSelected">
             </div>
-            <div> {{ article.imageUrl }} </div>
             <button class="btn btn-success" @click="doPost">Valider</button>
         </form>
     </div>
@@ -30,6 +22,7 @@
 </template>
 
 <script>
+
 export default {
     name: 'Articles9Form',
     data() {
@@ -37,18 +30,27 @@ export default {
             article: {
                 title: "",
                 imageUrl: ""
-            }
+            },
+            selectedFile: null
         }
     },
     methods: {
+        getData() {
+            this.$parent.getData();
+        },
         doPost(e) {
             e.preventDefault();
-            this.$http.post('http://localhost:3000/api/articles9', this.article).then((response) => {
-                console.log(response)
-                this.$router.push("/9gag")
+            var formData = new FormData();
+            formData.append("title", this.article.title);
+            formData.append("image", this.selectedFile, this.selectedFile.name);
+            this.$http.post('http://localhost:3000/api/articles9', formData).then(() => {
+                this.getData();
             }, (response) => {
                 console.log('erreur', response)
             })
+        },
+        onFileSelected(event) {
+            this.selectedFile = event.target.files[0]
         }
     }
 }

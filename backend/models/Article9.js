@@ -28,11 +28,11 @@ class Article9 {
             return executeSql(sqlQuery);
         };
         getOneArticle(id) {
-            let sqlQuery = `DELETE FROM Articles9 WHERE idArticle = ${id}`;
+            let sqlQuery = `SELECT * FROM Articles9 WHERE idArticle = ${id}`;
             return executeSql(sqlQuery);
         };
         updateArticle(id) {
-            let sqlQuery = `UPDATE Articles9 SET title="${this.title}", imageUrl="${this.imageUrl}", idUser="${this.idUser}", dateOfModification=NOW() WHERE idArticle = ${id}`;
+            let sqlQuery = `UPDATE Articles9 SET title="${this.title}", imageUrl="${this.imageUrl}", dateOfModification=NOW() WHERE idArticle = ${id}`;
             return executeSql(sqlQuery);
         }
         deleteOneArticle(id) {

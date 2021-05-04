@@ -4,13 +4,12 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
+const path = require('path');
+
 const articlesRRoutes = require('./routes/articleR');
 const articles9Routes = require('./routes/article9');
 const usersRoutes = require('./routes/users');
 
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -18,6 +17,11 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     next();
   });
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // Routes
 app.use('/api/articlesR', articlesRRoutes);
