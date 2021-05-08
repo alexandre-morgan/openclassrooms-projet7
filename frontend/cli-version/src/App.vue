@@ -1,24 +1,27 @@
 <template>
   <div id="app">
-      <div id="nav">
-        <router-link to="/">Home</router-link> |
-        <router-link to="/about">About</router-link> |
-        <router-link to="/reddit">Reddit</router-link> |
-        <router-link to="/9gag">9gag</router-link> |
-        <router-link to="/login">Login</router-link>
-      </div>
     <router-view/>
+    <footer class="fixed-bottom">Groupomania réseau d'entreprise</footer>
   </div>
 </template>
 
 
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Avenir, Montserrat;
+  font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
+
+footer {
+  color: #091f43;
+  font-size: 1.2rem;
+  background-color: #9da5b4;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
 </style>

@@ -1,8 +1,8 @@
 <template>
-    <div id="login-form">
+    <div id="signup-form">
     <form>
         <h1> {{ title }} </h1>
-        <p>Remplissez ce formulaire pour vous connecter.</p>
+        <p>Remplissez ce formulaire pour créer un compte.</p>
         <hr>
 
         <label for="email"><b>Email</b></label>
@@ -11,14 +11,14 @@
         <label for="psw"><b>Mot de passe</b></label>
         <input type="password" placeholder="Entrez votre mot de passe" id="psw" name="psw" required v-model="user.password">
 
-        <p><button @click="login">Se connecter</button></p>
+        <p><button @click="signup">Créer un compte</button></p>
     </form>
     </div>
 </template>
 
 <script>
 export default {
-    name: 'LoginForm',
+    name: 'SignupForm',
     props: {
         title: String
     },
@@ -31,14 +31,14 @@ export default {
       }
     },
     methods: {
-      login(e) {
+      signup(e) {
         e.preventDefault();
-        this.$http.post('http://localhost:3000/api/users/login', this.user).then(() => {
+        this.$http.post('http://localhost:3000/api/users/signup', this.user).then(() => {
           this.$router.push("/reddit")
         }).catch((error) => {
           alert(error.body.error)
         })
-      },
+      }
     }
 }
 </script>
@@ -192,7 +192,7 @@ dd, input {
     text-align: left;
 }
 
-#login-form {
+#signup-form {
     display: flex;
     justify-content: center;
 }

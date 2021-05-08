@@ -43,7 +43,9 @@ export default {
             var formData = new FormData();
             formData.append("title", this.article.title);
             formData.append("image", this.selectedFile, this.selectedFile.name);
-            this.$http.post('http://localhost:3000/api/articles9', formData).then(() => {
+            formData.append("isGif", 1);
+            formData.append("idUser", 28);
+            this.$http.post('http://localhost:3000/api/articles', formData).then(() => {
                 this.getData();
             }, (response) => {
                 console.log('erreur', response)

@@ -1,17 +1,15 @@
 <template>
-  <div class="reddit" id="reddit-page">
-        This is the "Reddit" page
+  <div class="redditAll" id="redditAll-page">
         <h2>Listes des articles Reddit</h2>
         <div class="card-group">
-            <div class="card w-50" v-for="item in articles" :key="item.idArticle">
+            <div class="card w-50" v-for="item in articlesR" :key="item.idArticle">
                 <!-- @click="redirect(item.id) -->
                 <div class="card-body">
                     <h5 class="card-title"> {{ item.title }} </h5>
                     <h6 class="card-subtitle mb-2 text-muted">ID : {{ item.idArticle }}</h6>
-                    <p class="card-text" v-if="item.isGif == 2"> {{ item.content }} </p>
-                    <img :src="item.imageUrl" class="card-img-top" :alt="item.title" v-if="item.isGif == 1">
-                    <p class="card-text"><small class="text-muted">Updated {{ item.dateOfModification}}</small></p>
-                    <router-link :to="{ name: 'RedditOne', params: { idArticle: item.idArticle }}" class="btn btn-info">M</router-link>
+                    <p class="card-text"> {{ item.content }} </p>
+                    <p class="card-text"><small class="text-muted">Updated {{ item.dateOfCreation}}</small></p>
+                    <!-- <router-link :to="{ name: 'RedditOne', params: { idArticle: item.idArticle }}" class="btn btn-info">M</router-link> -->
                     <button class="btn btn-danger" @click.prevent="deleteArticle(item.idArticle)">X</button>
                 </div>
             </div>
@@ -21,9 +19,10 @@
 
 <script>
 export default ({
+    name: 'RedditAll',
     data() {
         return {
-            articles: []
+            articlesR: []
         }
     },
     mounted() {
@@ -31,14 +30,14 @@ export default ({
     },
     methods: {
         getData() {
-            this.$http.get('http://localhost:3000/api/articles').then((response) => {
-                this.articles = response.data
+            this.$http.get('http://localhost:3000/api/articlesR').then((response) => {
+                this.articlesR = response.data
             }, (response) => {
                 console.log('erreur', response)
             })
         },
         deleteArticle(idArticle) {
-            this.$http.delete('http://localhost:3000/api/articles/' + idArticle).then(() => {
+            this.$http.delete('http://localhost:3000/api/articlesR/' + idArticle).then(() => {
                 this.getData()
             }, (response) => {
                 console.log('erreur', response)
