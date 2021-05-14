@@ -6,14 +6,14 @@ const multer = require('../middleware/multer-config');
 
 const articlesCtrl = require('../controllers/articles');
 
-router.post('/', multer, articlesCtrl.addArticle);
+router.post('/', auth, multer, articlesCtrl.addArticle);
 
-router.put('/:id', multer, articlesCtrl.updateArticle);
+router.put('/:id', auth, multer, articlesCtrl.updateArticle);
 
-router.delete('/:id', articlesCtrl.deleteOneArticle);
+router.delete('/:id', auth, articlesCtrl.deleteOneArticle);
 
-router.get('/:id', articlesCtrl.getOneArticle);
+router.get('/:id', auth, articlesCtrl.getOneArticle);
 
-router.get('/', articlesCtrl.getAllArticle);
+router.get('/', auth, articlesCtrl.getAllArticle);
 
 module.exports = router;

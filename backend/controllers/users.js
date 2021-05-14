@@ -10,7 +10,9 @@ exports.signUp = (req, res, next) => {
     bcrypt.hash(req.body.password, 10).then( hash => {
         const userObject = new User({
             email: req.body.email,
-            password: hash  
+            password: hash,
+            lastname: req.body.lastname,  
+            firstname: req.body.firstname
         });
         userObject.addUser()
           .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
@@ -31,8 +33,12 @@ exports.logIn = (req, res, next) => {
             }
             res.status(200).json({
                 userId: response[0].idUser,
+                firstname: response[0].firstname,
+                lastname: response[0].lastname,
                 token: jwt.sign(
-                    { userId: response[0].idUser },
+                    { 
+                        userId: response[0].idUser,
+                    },
                     'RANDOM_TOKEN_SECRET',
                     { expiresIn: '24h' }
                   )

@@ -1,9 +1,10 @@
 <template>
   <div id="app">
     <router-view/>
-    <footer class="fixed-bottom">Groupomania réseau d'entreprise</footer>
+    <footer class="mt-auto">Groupomania réseau d'entreprise</footer>
   </div>
 </template>
+
 
 
 <style lang="scss">

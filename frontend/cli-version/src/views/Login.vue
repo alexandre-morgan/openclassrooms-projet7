@@ -1,7 +1,7 @@
 <template>
     <div id="login">
         <HeaderHome/>
-        <div class="container">
+        <form class="container">
             <div class="row justify-content-md-center">
                 <div class="col-8">
                     <div class="border rounded-pill input-login input-login-title text-start">Se connecter</div>              
@@ -9,12 +9,26 @@
             </div>
             <div class="row justify-content-md-center">
                 <div class="col-8">
-                    <input type="text" class="form-control input-login rounded-pill" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1">           
+                    <input type="email" 
+                    class="form-control input-login rounded-pill" 
+                    placeholder="Email" 
+                    aria-label="Email" 
+                    aria-describedby="basic-addon1" 
+                    id="email"
+                    name="email"
+                    v-model="user.email">           
                 </div>
             </div>
             <div class="row justify-content-md-center">
                 <div class="col-8">
-                    <input type="text" class="form-control input-login rounded-pill" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1">
+                    <input type="password" 
+                    class="form-control input-login rounded-pill" 
+                    placeholder="Password" 
+                    aria-label="Password" 
+                    aria-describedby="basic-addon1" 
+                    id="password"
+                    name="password"
+                    v-model="user.password">
                 </div>
             </div>
             <div class="row justify-content-md-center mt-3">
@@ -24,13 +38,12 @@
                             <router-link :to="{ name: 'Signup'}" class="link-secondary">Créer un compte</router-link>
                         </div>
                         <div class="col-sm-4">
-                            <button class="btn btn-login rounded-pill text-nowrap">Se connecter</button>
+                            <button class="btn btn-login rounded-pill text-nowrap" @click="login">Se connecter</button>
                         </div>
                     </div>
                 </div>
             </div>
-
-        </div>
+        </form>
     </div>
 </template>
         
@@ -43,7 +56,30 @@ export default {
   name: 'Home',
   components: {
     HeaderHome
-  }
+  },
+      data() {
+      return {
+        user: {
+          email: '',
+          password: ''
+        }
+      }
+    },
+    methods: {
+        login(e) {
+            e.preventDefault();
+            this.$http.post('http://localhost:3000/api/users/login', this.user).then((response) => {
+                document.cookie = "userId=" + response.body.userId;
+                document.cookie = "token=" + response.body.token;
+                document.cookie = "firstname=" + response.body.firstname;
+                document.cookie = "lastname=" + response.body.lastname;
+            this.$router.push("/articles")
+            }).catch((error) => {
+            alert(error.body.error)
+            })
+        }
+    }
+
 }
 </script>
 

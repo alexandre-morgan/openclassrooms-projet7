@@ -1,19 +1,22 @@
 <template>
     <div id="articles" class="container-md">
         <NavApp/>
-        <div class="row  mt-3 mb-3 justify-content-md-center">
-            <router-link :to="{ name: 'Articles'}" class="text-muted text-start">Précedent</router-link>
+        <ArticleForm/>
+        <div class="row  mt-3 mb-3 justify-content-md-center" v-for="item in articles" :key="item.idArticle">
             <div class="card mb-3 article">
                 <div class="card-body">
                     <div class="d-flex justify-content-between pb-3">
                         <div>Prénom Nom</div>
-                        <div><small class="text-muted">{{ article.dateOfModification }}</small></div>
+                        <div><small class="text-muted">{{ item.dateOfModification }}</small></div>
                     </div>
-                    <h5 class="card-title rounded-pill">{{article.title}}</h5>
-                    <img :src="article.imageUrl" class="card-img-bottom" :alt="article.title" v-if="article.isGif == 1">
-                    <p class="card-text rounded-pill" v-if="article.isGif == 2">{{ article.content }}</p>
-                    <button class="btn btn-danger" @click="deleteArticle(article.idArticle)" v-if="getCookie('userId') == article.idUser">X</button>
-                    <button class="btn commentBtn">Commenter</button>
+                    <h5 class="card-title rounded-pill">{{item.title}}</h5>
+                    <p>
+                        <img :src="item.imageUrl" class="card-img-bottom" :alt="item.title" v-if="item.isGif == 1">
+                    </p>
+                    <p class="card-text rounded-pill" v-if="item.isGif == 2">{{ item.content }}</p>
+                    <div class="d-flex justify-content-end">
+                        <router-link :to="{ name: 'Article', params: { idArticle: item.idArticle }}" class="btn stretched-link commentBtn rounded-pill">Commenter</router-link>
+                    </div>
                 </div>
             </div>
         </div>
@@ -22,14 +25,17 @@
 
 <script>
 import NavApp from '@/components/Nav-app.vue'
+import ArticleForm from '@/components/ArticleForm.vue'
+
 
 export default {
     components: {
-        NavApp
+        NavApp,
+        ArticleForm
     },
     data() {
         return {
-            article: []
+            articles: []
         }
     },
     mounted() {
@@ -38,24 +44,15 @@ export default {
 
     methods: {
         getData() {
-            this.$http.get('http://localhost:3000/api/articles/' + this.$route.params.idArticle,
-            {
+            this.$http.get('http://localhost:3000/api/articles', {
                 headers: {
                     authorization: "Basic " + this.getCookie('token')
                 }
-            }
-            ).then((response) => {
-                this.article = response.data[0]
+            }).then((response) => {
+                this.articles = response.data
             }, (response) => {
                 console.log('erreur', response)
             })
-        },
-        deleteArticle(idArticle) {
-            this.$http.delete('http://localhost:3000/api/articles/' + idArticle).then(() => {
-                this.$router.push({ name: 'Articles'})
-            }, (response) => {
-                console.log('erreur', response)
-            }) 
         },
         getCookie(key) {
             var x = document.cookie.split('; ');
@@ -67,6 +64,7 @@ export default {
             }
             return null
         }
+
     }
 }
 </script>
@@ -91,14 +89,9 @@ export default {
     }
     .commentBtn {
         font-weight: 900;
-        color: #091f43;
-        background-color: white;
+        color: white;
+        background-color: #091f43;
         padding-right: 2rem;
         padding-left: 2rem;
-        margin-left:2rem;
-        border: solid 2px red;
-        &:hover {
-            background-color: rosybrown;
-        }
     }
 </style>

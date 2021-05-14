@@ -28,7 +28,7 @@ class Article {
             return executeSql(sqlQuery);
         };
         getAllArticle() {
-            let sqlQuery = 'SELECT * FROM Articles';
+            let sqlQuery = 'SELECT * FROM Articles ORDER BY dateOfCreation DESC';
             return executeSql(sqlQuery);
         };
         getOneArticle(id) {
