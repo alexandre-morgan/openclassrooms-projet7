@@ -5,6 +5,7 @@
             <p> Bienvenue {{ getCookie('firstname') }}</p>
             <router-link :to="{ name: 'Articles'}" class="nav-link">Profil</router-link>
             <router-link :to="{ name: 'Articles'}" class="nav-link">Rechercher</router-link>
+            <button class="btn" @click="signout">Déconnexion</button>
         </div>
     </nav>
 </template>
@@ -22,8 +23,15 @@ export default {
                 }
             }
             return null
+        },
+        signout() {
+            document.cookie = "userId=";
+            document.cookie = "token=";
+            document.cookie = "firstname=";
+            document.cookie = "lastname=";
+            this.$router.push("./");     
         }
-  }
+    }
 }
 </script>
 

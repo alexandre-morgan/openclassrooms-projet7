@@ -75,7 +75,7 @@ export default {
                 document.cookie = "lastname=" + response.body.lastname;
             this.$router.push("/articles")
             }).catch((error) => {
-            alert(error.body.error)
+                alert(error.body.error)
             })
         }
     }

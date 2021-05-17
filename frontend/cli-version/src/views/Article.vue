@@ -17,15 +17,18 @@
                 </div>
             </div>
         </div>
+        <CommentForm/>
     </div>
 </template>
 
 <script>
 import NavApp from '@/components/Nav-app.vue'
+import CommentForm from '@/components/CommentForm.vue'
 
 export default {
     components: {
-        NavApp
+        NavApp,
+        CommentForm
     },
     data() {
         return {
@@ -51,7 +54,11 @@ export default {
             })
         },
         deleteArticle(idArticle) {
-            this.$http.delete('http://localhost:3000/api/articles/' + idArticle).then(() => {
+            this.$http.delete('http://localhost:3000/api/articles/' + idArticle, {
+                headers: {
+                    authorization: "Basic " + this.getCookie('token')
+                }
+            }).then(() => {
                 this.$router.push({ name: 'Articles'})
             }, (response) => {
                 console.log('erreur', response)

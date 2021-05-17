@@ -2,7 +2,7 @@ const { response } = require('express');
 const {executeSql} = require('../services/db');
 
 class User {
-        idUser = null;
+        userId = null;
         email = '';
         password = '';
         dateOfCreation = '';
@@ -19,7 +19,7 @@ class User {
         };
 
         addUser() {
-            let sqlQuery = `INSERT INTO users (idUser, email, password, dateOfCreation, lastname, firstname) 
+            let sqlQuery = `INSERT INTO users (userId, email, password, dateOfCreation, lastname, firstname) 
             VALUES (NULL, "${this.email}", "${this.password}", NOW(), "${this.lastname}","${this.firstname}")`;
             return executeSql(sqlQuery);
         }

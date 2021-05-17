@@ -1,7 +1,7 @@
 <template>
     <div id="articles" class="container-md">
         <NavApp/>
-        <ArticleForm/>
+        <ArticleForm v-if="getCookie('userId') !== ''"/>
         <div class="row  mt-3 mb-3 justify-content-md-center" v-for="item in articles" :key="item.idArticle">
             <div class="card mb-3 article">
                 <div class="card-body">
