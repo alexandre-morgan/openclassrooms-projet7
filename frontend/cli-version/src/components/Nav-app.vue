@@ -1,11 +1,16 @@
 <template>
-    <nav class="navbar">
+    <nav class="navbar" id="navApp">
         <div class="container-fluid">
-            <router-link :to="{ name: 'Articles'}" class="navbar-brand">Logo</router-link>
-            <p> Bienvenue {{ getCookie('firstname') }}</p>
-            <router-link :to="{ name: 'Articles'}" class="nav-link">Profil</router-link>
-            <router-link :to="{ name: 'Articles'}" class="nav-link">Rechercher</router-link>
-            <button class="btn" @click="signout">Déconnexion</button>
+            <router-link :to="{ name: 'Articles'}" class="navbar-brand">
+                <img src="../assets/logo_groupomania_nav_mini.png" alt="Logo Groupomania" class="d-inline-block align-text-top">
+            </router-link>
+            <div class="text-white"> Bienvenue {{ getCookie('firstname') }}</div>
+            <router-link :to="{ name: 'Articles'}" class="btn-navApp btn">
+                <img src="../assets/file-person.svg" alt="Profile">
+            </router-link>
+            <button class="btn btn-navApp" @click="signout">
+                <img src="../assets/box-arrow-right.svg" alt="Logout">
+            </button>
         </div>
     </nav>
 </template>
@@ -38,9 +43,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.header-home {
+#navApp {
     background-color: #091f43;
-    padding-top: 2.5rem;
-    padding-bottom: 2.5rem;
+}
+.btn-navApp {
+    background-color: white;
 }
 </style>

@@ -11,7 +11,7 @@
                 class="card-title rounded-pill form-control" 
                 placeholder="Title" 
                 v-model="article.title">
-                <div class="d-flex justify-content-between align-items-end" v-if="displayTexte">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-end" v-if="displayTexte">
                     <label for="content" class="d-none">Description</label>
                     <textarea name="content"
                                 id="content"
@@ -23,7 +23,7 @@
                     </textarea>
                     <button class="btn postBtn rounded-pill" @click="postTexte">Publier</button>
                 </div>
-                <div class="d-flex justify-content-between align-items-end" v-if="displayImage">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-end" v-if="displayImage">
                     <label for="image" class="d-none">Image</label>
                     <input type="file" class="form-control" id="image" @change="onFileSelected">
                     <button class="btn postBtn rounded-pill" @click="postGif">Publier</button>
@@ -152,6 +152,7 @@ export default {
         padding-right: 2rem;
         padding-left: 2rem;
         margin-left:2rem;
+        margin-top: .5rem;
         border: solid 2px red;
         &:hover {
             background-color: rosybrown;

@@ -12,7 +12,7 @@
                             v-model="comment.content">
                 </textarea>
                 <div class="d-flex justify-content-end mt-3">
-                    <button class="btn postBtn rounded-pill" @click="postComment">Publier le commentaire</button>
+                    <button class="btn postBtn rounded-pill" @click="postComment">Publier</button>
                 </div>
             </form>
         </div>

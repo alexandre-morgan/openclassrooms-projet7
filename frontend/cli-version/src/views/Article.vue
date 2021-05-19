@@ -1,41 +1,43 @@
 <template>
-    <div id="articles" class="container-md">
+    <div id="articles">
         <NavApp/>
-        <div class="row  mt-3 mb-3 justify-content-md-center">
-            <div class="text-start">
-                <router-link :to="{ name: 'Articles'}" class="text-muted ">Précedent</router-link>
-            </div>
-            <div class="card mb-3 article">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between pb-3">
-                        <div> {{ article.firstname }} {{ article.lastname }} </div>
-                        <div><small class="text-muted">{{ article.dateOfModification }}</small></div>
-                    </div>
-                    <h5 class="card-title rounded-pill">{{article.title}}</h5>
-                    <img :src="article.imageUrl" class="card-img-bottom" :alt="article.title" v-if="article.isGif == 1">
-                    <p class="card-text rounded-pill" v-if="article.isGif == 2">{{ article.content }}</p>
-                    <div class="d-flex justify-content-end align-items-center">
-                        <a class="link-danger" @click="deleteArticle(article.idArticle)" v-if="getCookie('userId') == article.userId">Supprimer</a>
-                    </div>
+        <div class="container-md">
+            <div class="row  mt-3 mb-3 justify-content-md-center">
+                <div class="text-start">
+                    <router-link :to="{ name: 'Articles'}" class="text-muted ">Précedent</router-link>
                 </div>
-            </div>
-        </div>
-        <CommentForm/>
-        <div v-if="comments.length !== 0">
-            <h3>Commentaires</h3>
-            <div class="row  mt-3 mb-3 justify-content-md-center" v-for="item in comments" :key="item.commentId">
                 <div class="card mb-3 article">
                     <div class="card-body">
                         <div class="d-flex justify-content-between pb-3">
-                            <div> {{ item.firstname}} {{ item.lastname }} </div>
-                            <div><small class="text-muted">{{ item.dateOfModification }}</small></div>
+                            <div> {{ article.firstname }} {{ article.lastname }} </div>
+                            <div><small class="text-muted">{{ article.dateOfModification }}</small></div>
                         </div>
-                        <p class="card-text rounded-pill">{{ item.content }}</p>
-                        <!-- <button class="btn btn-danger" @click="deleteArticle(article.idArticle)" v-if="getCookie('userId') == item.userId">X</button> -->
+                        <h5 class="card-title rounded-pill">{{article.title}}</h5>
+                        <img :src="article.imageUrl" class="card-img-bottom" :alt="article.title" v-if="article.isGif == 1">
+                        <p class="card-text rounded-pill" v-if="article.isGif == 2">{{ article.content }}</p>
+                        <div class="d-flex justify-content-end align-items-center">
+                            <a class="link-danger" @click="deleteArticle(article.idArticle)" v-if="getCookie('userId') == article.userId">Supprimer</a>
+                        </div>
                     </div>
                 </div>
             </div>
-            <button class="btn" @click="moreComments()">Voir plus</button>
+            <CommentForm/>
+            <div v-if="comments.length !== 0">
+                <h3>Commentaires</h3>
+                <div class="row  mt-3 mb-3 justify-content-md-center" v-for="item in comments" :key="item.commentId">
+                    <div class="card mb-3 article">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between pb-3">
+                                <div> {{ item.firstname}} {{ item.lastname }} </div>
+                                <div><small class="text-muted">{{ item.dateOfModification }}</small></div>
+                            </div>
+                            <p class="card-text rounded-pill">{{ item.content }}</p>
+                            <!-- <button class="btn btn-danger" @click="deleteArticle(article.idArticle)" v-if="getCookie('userId') == item.userId">X</button> -->
+                        </div>
+                    </div>
+                </div>
+                <button class="btn" @click="moreComments()">Voir plus</button>
+            </div>
         </div>
     </div>
 </template>

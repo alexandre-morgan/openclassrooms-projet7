@@ -1,26 +1,28 @@
 <template>
-    <div id="articles" class="container-md">
+    <div id="articles">
         <NavApp/>
-        <ArticleForm v-if="getCookie('userId') !== ''"/>
-        <div class="row  mt-3 mb-3 justify-content-md-center" v-for="item in articles" :key="item.idArticle">
-            <div class="card mb-3 article">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between pb-3">
-                        <div> {{ item.firstname}} {{ item.lastname }} </div>
-                        <div><small class="text-muted">{{ item.dateOfModification }}</small></div>
-                    </div>
-                    <h5 class="card-title rounded-pill">{{item.title}}</h5>
-                    <p>
-                        <img :src="item.imageUrl" class="card-img-bottom" :alt="item.title" v-if="item.isGif == 1">
-                    </p>
-                    <p class="card-text rounded-pill" v-if="item.isGif == 2">{{ item.content }}</p>
-                    <div class="d-flex justify-content-end">
-                        <router-link :to="{ name: 'Article', params: { idArticle: item.idArticle }}" class="btn stretched-link commentBtn rounded-pill">Commenter</router-link>
+        <div class="container-md">
+            <ArticleForm v-if="getCookie('userId') !== ''"/>
+            <div class="row  mt-3 mb-3 justify-content-md-center" v-for="item in articles" :key="item.idArticle">
+                <div class="card mb-3 article">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between pb-3">
+                            <div> {{ item.firstname}} {{ item.lastname }} </div>
+                            <div><small class="text-muted">{{ item.dateOfModification }}</small></div>
+                        </div>
+                        <h5 class="card-title rounded-pill">{{item.title}}</h5>
+                        <p>
+                            <img :src="item.imageUrl" class="card-img-bottom" :alt="item.title" v-if="item.isGif == 1">
+                        </p>
+                        <p class="card-text rounded-pill" v-if="item.isGif == 2">{{ item.content }}</p>
+                        <div class="d-flex justify-content-end">
+                            <router-link :to="{ name: 'Article', params: { idArticle: item.idArticle }}" class="btn stretched-link commentBtn rounded-pill">Commenter</router-link>
+                        </div>
                     </div>
                 </div>
             </div>
+            <button class="btn" @click="moreArticles()">Voir plus</button>
         </div>
-        <button class="btn" @click="moreArticles()">Voir plus</button>
     </div>
 </template>
 
