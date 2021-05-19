@@ -2,20 +2,20 @@
     <div class="row  mt-3 mb-3 justify-content-md-center" id="articleForm">
         <div class="card mb-3 article">
             <form class="card-body">
+                <div class="d-flex mb-2">
+                    <button class="btn choiceBtn rounded-pill" @click="displayTexteMethod" :class="{ 'active': displayTexte }">Texte</button>
+                    <button class="btn choiceBtn rounded-pill" @click="displayImageMethod" :class="{ 'active': displayImage }">Image</button>
+                </div>
                 <label for="title" class="d-none">Title</label>
                 <input type="text" 
                 class="card-title rounded-pill form-control" 
                 placeholder="Title" 
                 v-model="article.title">
-                <div class="d-flex mb-2">
-                    <button class="btn choiceBtn rounded-pill" @click="displayTexteMethod" :class="{ 'active': displayTexte }">Texte</button>
-                    <button class="btn choiceBtn rounded-pill" @click="displayImageMethod" :class="{ 'active': displayImage }">Image</button>
-                </div>
                 <div class="d-flex justify-content-between align-items-end" v-if="displayTexte">
                     <label for="content" class="d-none">Description</label>
                     <textarea name="content"
                                 id="content"
-                                cols="6" rows="1"
+                                cols="6" rows="3"
                                 class="form-control"
                                 formControlName="content"
                                 placeholder="Contenu de l'article"
@@ -61,7 +61,7 @@ export default {
             this.displayTexte = true;
         },
         getData() {
-            this.$parent.getData();
+            this.$parent.getData(this.$parent.numberOfArticles);
         },
         postGif(e) {
             e.preventDefault();
@@ -69,7 +69,7 @@ export default {
             formData.append("title", this.article.title);
             formData.append("image", this.selectedFile, this.selectedFile.name);
             formData.append("isGif", 1);
-            formData.append("idUser", this.getCookie('userId'));
+            formData.append("userId", this.getCookie('userId'));
             this.$http.post('http://localhost:3000/api/articles', formData, {
                 headers: {
                     authorization: "Basic " + this.getCookie('token')
@@ -87,7 +87,7 @@ export default {
                 title: this.article.title,
                 content: this.article.content,
                 isGif: 2,
-                idUser: this.getCookie('userId')
+                userId: parseInt(this.getCookie('userId'),10)
             },{
                 headers: {
                     authorization: "Basic " + this.getCookie('token')

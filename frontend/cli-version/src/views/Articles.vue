@@ -6,7 +6,7 @@
             <div class="card mb-3 article">
                 <div class="card-body">
                     <div class="d-flex justify-content-between pb-3">
-                        <div>Prénom Nom</div>
+                        <div> {{ item.firstname}} {{ item.lastname }} </div>
                         <div><small class="text-muted">{{ item.dateOfModification }}</small></div>
                     </div>
                     <h5 class="card-title rounded-pill">{{item.title}}</h5>
@@ -20,6 +20,7 @@
                 </div>
             </div>
         </div>
+        <button class="btn" @click="moreArticles()">Voir plus</button>
     </div>
 </template>
 
@@ -35,7 +36,8 @@ export default {
     },
     data() {
         return {
-            articles: []
+            articles: [],
+            numberOfArticles: 5
         }
     },
     mounted() {
@@ -44,7 +46,7 @@ export default {
 
     methods: {
         getData() {
-            this.$http.get('http://localhost:3000/api/articles', {
+            this.$http.get('http://localhost:3000/api/articles' + `?nbOfArticles=${this.numberOfArticles}`, {
                 headers: {
                     authorization: "Basic " + this.getCookie('token')
                 }
@@ -63,6 +65,10 @@ export default {
                 }
             }
             return null
+        },
+        moreArticles() {
+            this.numberOfArticles += 5;
+            this.getData()
         }
 
     }
@@ -82,10 +88,14 @@ export default {
     .card-title {
         background-color: white;
         padding-left: 15px;
+        padding-top: .3rem;
+        padding-bottom: .3rem;
     }
     .card-text {
         padding-left: 15px;
         background-color: white;
+        padding-top: .3rem;
+        padding-bottom: .3rem;
     }
     .commentBtn {
         font-weight: 900;

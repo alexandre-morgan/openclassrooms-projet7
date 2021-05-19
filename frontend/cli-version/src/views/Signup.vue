@@ -82,23 +82,26 @@ export default {
     HeaderHome
   },
       data() {
-      return {
-        user: {
-          email: '',
-          password: '',
-          lastname: '',
-          firstname: ''
+        return {
+            user: {
+            email: '',
+            password: '',
+            lastname: '',
+            firstname: ''
+            }
         }
-      }
     },
     methods: {
       signup(e) {
         e.preventDefault();
-        console.log(this.user)
-        this.$http.post('http://localhost:3000/api/users/signup', this.user).then(() => {
-          this.$router.push("/articles")
+        this.$http.post('http://localhost:3000/api/users/signup', this.user).then((response) => {
+            document.cookie = "userId=" + response.body.userId;
+            document.cookie = "token=" + response.body.token;
+            document.cookie = "firstname=" + response.body.firstname;
+            document.cookie = "lastname=" + response.body.lastname;
+            this.$router.push("/articles")
         }).catch((error) => {
-          alert(error.body.error)
+            alert(error.body.error)
         })
       },
     }

@@ -3,8 +3,10 @@ const Article = require('../models/Article');
 const fs = require('fs');
 
 exports.getAllArticle = (req, res, next) => {
+    const params = req.originalUrl.split("?")[1];
+    const nbOfArticles = params.split('=')[1];
     const articleObject = new Article();
-    articleObject.getAllArticle().then(articles => {
+    articleObject.getAllArticle(nbOfArticles).then(articles => {
         res.status(200).json(articles)
     }).catch(error => res.status(400).json({ error }));
 };
@@ -33,7 +35,7 @@ exports.addArticle = (req, res, next) => {
     const articleObject = new Article({
         title: req.body.title,
         isGif: req.body.isGif,
-        idUser: req.body.idUser
+        userId: req.body.userId
     });
     if(req.body.isGif == 1) {
         articleObject.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;

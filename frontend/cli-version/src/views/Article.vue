@@ -2,22 +2,41 @@
     <div id="articles" class="container-md">
         <NavApp/>
         <div class="row  mt-3 mb-3 justify-content-md-center">
-            <router-link :to="{ name: 'Articles'}" class="text-muted text-start">Précedent</router-link>
+            <div class="text-start">
+                <router-link :to="{ name: 'Articles'}" class="text-muted ">Précedent</router-link>
+            </div>
             <div class="card mb-3 article">
                 <div class="card-body">
                     <div class="d-flex justify-content-between pb-3">
-                        <div>Prénom Nom</div>
+                        <div> {{ article.firstname }} {{ article.lastname }} </div>
                         <div><small class="text-muted">{{ article.dateOfModification }}</small></div>
                     </div>
                     <h5 class="card-title rounded-pill">{{article.title}}</h5>
                     <img :src="article.imageUrl" class="card-img-bottom" :alt="article.title" v-if="article.isGif == 1">
                     <p class="card-text rounded-pill" v-if="article.isGif == 2">{{ article.content }}</p>
-                    <button class="btn btn-danger" @click="deleteArticle(article.idArticle)" v-if="getCookie('userId') == article.idUser">X</button>
-                    <button class="btn commentBtn">Commenter</button>
+                    <div class="d-flex justify-content-end align-items-center">
+                        <a class="link-danger" @click="deleteArticle(article.idArticle)" v-if="getCookie('userId') == article.userId">Supprimer</a>
+                    </div>
                 </div>
             </div>
         </div>
         <CommentForm/>
+        <div v-if="comments.length !== 0">
+            <h3>Commentaires</h3>
+            <div class="row  mt-3 mb-3 justify-content-md-center" v-for="item in comments" :key="item.commentId">
+                <div class="card mb-3 article">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between pb-3">
+                            <div> {{ item.firstname}} {{ item.lastname }} </div>
+                            <div><small class="text-muted">{{ item.dateOfModification }}</small></div>
+                        </div>
+                        <p class="card-text rounded-pill">{{ item.content }}</p>
+                        <!-- <button class="btn btn-danger" @click="deleteArticle(article.idArticle)" v-if="getCookie('userId') == item.userId">X</button> -->
+                    </div>
+                </div>
+            </div>
+            <button class="btn" @click="moreComments()">Voir plus</button>
+        </div>
     </div>
 </template>
 
@@ -32,11 +51,14 @@ export default {
     },
     data() {
         return {
-            article: []
+            article: [],
+            comments: [],
+            nbOfComments: 5
         }
     },
     mounted() {
         this.getData()
+        this.getComments()
     },
 
     methods: {
@@ -63,6 +85,22 @@ export default {
             }, (response) => {
                 console.log('erreur', response)
             }) 
+        },
+        getComments() {
+            this.$http.get('http://localhost:3000/api/comments/' + this.$route.params.idArticle + `?nbOfComments=${this.nbOfComments}`, {
+                headers: {
+                    authorization: "Basic " + this.getCookie('token')
+                }
+            }).then((response) => {
+                this.comments = response.data 
+            }, (response) => {
+                console.log('erreur', response)
+            }) 
+
+        },
+        moreComments() {
+            this.nbOfComments += 5;
+            this.getComments()
         },
         getCookie(key) {
             var x = document.cookie.split('; ');

@@ -25,10 +25,11 @@ export default {
             return null
         },
         signout() {
-            document.cookie = "userId=";
-            document.cookie = "token=";
-            document.cookie = "firstname=";
-            document.cookie = "lastname=";
+            document.cookie = "userId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+            document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+            document.cookie = "firstname=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+            document.cookie = "lastname=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+            document.cookie = "path=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
             this.$router.push("./");     
         }
     }

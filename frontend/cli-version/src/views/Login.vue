@@ -73,6 +73,7 @@ export default {
                 document.cookie = "token=" + response.body.token;
                 document.cookie = "firstname=" + response.body.firstname;
                 document.cookie = "lastname=" + response.body.lastname;
+                document.cookie = "path=/";
             this.$router.push("/articles")
             }).catch((error) => {
                 alert(error.body.error)
