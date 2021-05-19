@@ -26,6 +26,14 @@ class User {
         findOne() {
             let sqlQuery = `SELECT * FROM users WHERE email = "${this.email}" `;
             return executeSql(sqlQuery);
-        }       
+        }
+        findOneById(userId) {
+            let sqlQuery = `SELECT * FROM users WHERE userId = "${userId}" `;
+            return executeSql(sqlQuery);
+        }    
+        updateUser(userIdt) {
+            let sqlQuery = `UPDATE Users SET firstname="${this.firstname}", lastname="${this.lastname}", email="${this.email}" WHERE userId = ${userIdt}`;
+            return executeSql(sqlQuery);
+        }   
 }
 module.exports = User;

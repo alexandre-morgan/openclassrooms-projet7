@@ -21,7 +21,7 @@
                     </div>
                 </div>
             </div>
-            <button class="btn" @click="moreArticles()">Voir plus</button>
+            <button class="btn" @click="moreArticles()" v-if="this.articles.length >= this.numberOfArticles">Voir plus</button>
         </div>
     </div>
 </template>

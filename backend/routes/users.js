@@ -9,6 +9,9 @@ router.post('/signup', usersCtrl.signUp);
 
 router.post('/login', usersCtrl.logIn);
 
+router.put('/:id', auth, usersCtrl.updateUser);
+
+router.get('/:id', auth, usersCtrl.findOne);
 
 // router.put('/:id', articlesRCtrl.updateArticle);
 

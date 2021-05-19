@@ -16,7 +16,7 @@
                         <img :src="article.imageUrl" class="card-img-bottom" :alt="article.title" v-if="article.isGif == 1">
                         <p class="card-text rounded-pill" v-if="article.isGif == 2">{{ article.content }}</p>
                         <div class="d-flex justify-content-end align-items-center">
-                            <a class="link-danger" @click="deleteArticle(article.idArticle)" v-if="getCookie('userId') == article.userId">Supprimer</a>
+                            <button class="btn link-danger text-decoration-underline" @click="deleteArticle(article.idArticle)" v-if="getCookie('userId') == article.userId">Supprimer</button>
                         </div>
                     </div>
                 </div>
@@ -32,11 +32,13 @@
                                 <div><small class="text-muted">{{ item.dateOfModification }}</small></div>
                             </div>
                             <p class="card-text rounded-pill">{{ item.content }}</p>
-                            <!-- <button class="btn btn-danger" @click="deleteArticle(article.idArticle)" v-if="getCookie('userId') == item.userId">X</button> -->
+                            <div class="d-flex justify-content-end align-items-center">
+                                <button class="btn link-danger text-decoration-underline" @click="deleteComment(item.commentId)" v-if="getCookie('userId') == item.userId">Supprimer</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <button class="btn" @click="moreComments()">Voir plus</button>
+                <button class="btn" @click="moreComments()" v-if="this.comments.length >= this.nbOfComments">Voir plus</button>
             </div>
         </div>
     </div>
@@ -99,6 +101,17 @@ export default {
                 console.log('erreur', response)
             }) 
 
+        },
+        deleteComment(commentId) {
+            this.$http.delete('http://localhost:3000/api/comments/' + commentId, {
+                headers: {
+                    authorization: "Basic " + this.getCookie('token')
+                }
+            }).then(() => {
+                this.getComments()
+            }, (response) => {
+                console.log('erreur', response)
+            }) 
         },
         moreComments() {
             this.nbOfComments += 5;

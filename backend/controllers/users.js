@@ -46,3 +46,23 @@ exports.logIn = (req, res, next) => {
         }).catch(error => res.status(500).json({ error }));
     }).catch(error => res.status(500).json({ error }));
 };
+
+exports.findOne = (req, res, next) => {
+    const userObject = new User();
+    userObject.findOneById(req.params.id).then((response) => {
+        res.status(200).json({
+            firstname: response[0].firstname,
+            lastname: response[0].lastname,
+            email: response[0].email
+        })
+    }).catch(error => res.status(500).json({ error }));
+};
+
+exports.updateUser = (req, res, next) => {
+    const userObject = new User({
+        ...req.body
+    });
+    userObject.updateUser(req.params.id).then((response) => {
+        res.status(200).json({ message: 'Utilisateur modifié !'});
+    }).catch(error => res.status(400).json({ error }));
+};
