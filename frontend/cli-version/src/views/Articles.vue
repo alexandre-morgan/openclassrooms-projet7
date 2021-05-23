@@ -1,20 +1,21 @@
 <template>
     <div id="articles">
         <NavApp/>
+        <div class="alert alert-danger" v-if="errorJwt.message !== ''"> {{ this.errorJwt.message }} </div>
         <div class="container-md">
-            <ArticleForm v-if="getCookie('userId') !== ''"/>
+            <ArticleForm v-if="!(errorJwt.message !== '')"/>
             <div class="row  mt-3 mb-3 justify-content-md-center" v-for="item in articles" :key="item.idArticle">
                 <div class="card mb-3 article">
                     <div class="card-body">
                         <div class="d-flex justify-content-between pb-3">
                             <div> {{ item.firstname}} {{ item.lastname }} </div>
-                            <div><small class="text-muted">{{ item.dateOfModification }}</small></div>
+                            <div> <span v-if="item.isNew"> NEW ! </span> <small class="text-muted">{{ setDate(item.dateOfModification) }}</small></div>
                         </div>
-                        <h5 class="card-title rounded-pill">{{item.title}}</h5>
+                        <h5 class="card-title rounded">{{item.title}}</h5>
                         <p>
                             <img :src="item.imageUrl" class="card-img-bottom" :alt="item.title" v-if="item.isGif == 1">
                         </p>
-                        <p class="card-text rounded-pill" v-if="item.isGif == 2">{{ item.content }}</p>
+                        <p class="card-text rounded" v-if="item.isGif == 2">{{ item.content }}</p>
                         <div class="d-flex justify-content-end">
                             <router-link :to="{ name: 'Article', params: { idArticle: item.idArticle }}" class="btn stretched-link commentBtn rounded-pill">Commenter</router-link>
                         </div>
@@ -30,7 +31,6 @@
 import NavApp from '@/components/Nav-app.vue'
 import ArticleForm from '@/components/ArticleForm.vue'
 
-
 export default {
     components: {
         NavApp,
@@ -39,7 +39,10 @@ export default {
     data() {
         return {
             articles: [],
-            numberOfArticles: 5
+            numberOfArticles: 5,
+            errorJwt: {
+                message: ""
+            }
         }
     },
     mounted() {
@@ -54,9 +57,31 @@ export default {
                 }
             }).then((response) => {
                 this.articles = response.data
+                this.addNNewParams()
             }, (response) => {
+                if(response.body.error.name == "TokenExpiredError") {
+                    this.errorJwt.message = "Session expirée. Veuillez vous déconnecter."
+                }
                 console.log('erreur', response)
             })
+        },
+        addNNewParams() {
+            for (var i = 0; i < this.articles.length; i++) {
+                const dateOfArticle = new Date(this.articles[i].dateOfModification)
+                const timeStampOfArticle = Date.parse(dateOfArticle)
+                const lastLog = parseInt(this.getCookie("lastLog"))
+                const presentLog = parseInt(this.getCookie("presentLog"))
+                if(timeStampOfArticle >= lastLog && timeStampOfArticle <= presentLog) {
+                    this.articles[i].isNew = true;
+                }
+            }
+        },
+        getTimeStamp(completeDate){
+            const date = completeDate.split('T')[0];
+            const times = completeDate.split('T')[1].split('.')[0].split(':')
+            const time = times[0] * 3600 + times[1] * 60 + times[2]
+            const timeStamp = parseInt(Date.parse(date)) + parseInt(time)
+            return timeStamp
         },
         getCookie(key) {
             var x = document.cookie.split('; ');
@@ -71,8 +96,13 @@ export default {
         moreArticles() {
             this.numberOfArticles += 5;
             this.getData()
+        },
+        setDate(timeStamp) {
+          const dateTime = timeStamp.split('T')
+          const date = dateTime[0]
+          const time = dateTime[1].split('.')[0]
+          return `${date} - ${time}`;
         }
-
     }
 }
 </script>

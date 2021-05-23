@@ -29,14 +29,24 @@ export default {
             }
             return null
         },
-        signout(e) {
-            e.preventDefault()
-            document.cookie = "userId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-            document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-            document.cookie = "firstname=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-            document.cookie = "lastname=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-            document.cookie = "path=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-            this.$router.push("/");     
+        signout() {
+            this.$http.put('http://localhost:3000/api/users/log/' + this.getCookie("userId"), {
+                lastLog: Date.now()
+            }, {
+                headers: {
+                    authorization: "Basic " + this.getCookie('token')
+                }
+            }).then(() => {
+                document.cookie = "userId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+                document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+                document.cookie = "firstname=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+                document.cookie = "lastname=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+                document.cookie = "lastLog=" + Date.now() + "; path=/"
+                document.cookie = "path=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+                this.$router.push("/");     
+            }, (response) => {
+                console.log('erreur', response)
+            })
         }
     }
 }

@@ -1,7 +1,8 @@
 <template>
     <div id="articles">
         <NavApp/>
-        <div class="container-md">
+        <div class="alert alert-danger" v-if="errorJwt.message !== ''"> {{ this.errorJwt.message }} </div>
+        <div class="container-md" v-if="!(errorJwt.message !== '')">
             <div class="row  mt-3 mb-3 justify-content-md-center">
                 <div class="text-start">
                     <router-link :to="{ name: 'Articles'}" class="text-muted ">Précedent</router-link>
@@ -12,9 +13,9 @@
                             <div> {{ article.firstname }} {{ article.lastname }} </div>
                             <div><small class="text-muted">{{ article.dateOfModification }}</small></div>
                         </div>
-                        <h5 class="card-title rounded-pill">{{article.title}}</h5>
+                        <h5 class="card-title rounded">{{article.title}}</h5>
                         <img :src="article.imageUrl" class="card-img-bottom" :alt="article.title" v-if="article.isGif == 1">
-                        <p class="card-text rounded-pill" v-if="article.isGif == 2">{{ article.content }}</p>
+                        <p class="card-text rounded" v-if="article.isGif == 2"><pre>{{ article.content }}</pre></p>
                         <div class="d-flex justify-content-end align-items-center">
                             <button class="btn link-danger text-decoration-underline" @click="deleteArticle(article.idArticle)" v-if="getCookie('userId') == article.userId">Supprimer</button>
                         </div>
@@ -23,15 +24,15 @@
             </div>
             <CommentForm/>
             <div v-if="comments.length !== 0">
-                <h3>Commentaires</h3>
+                <h3> {{ comments.length }} Commentaires</h3>
                 <div class="row  mt-3 mb-3 justify-content-md-center" v-for="item in comments" :key="item.commentId">
                     <div class="card mb-3 article">
                         <div class="card-body">
                             <div class="d-flex justify-content-between pb-3">
                                 <div> {{ item.firstname}} {{ item.lastname }} </div>
-                                <div><small class="text-muted">{{ item.dateOfModification }}</small></div>
+                                <div><small class="text-muted">{{ setDate(item.dateOfModification) }}</small></div>
                             </div>
-                            <p class="card-text rounded-pill">{{ item.content }}</p>
+                            <p class="card-text rounded">{{ item.content }}</p>
                             <div class="d-flex justify-content-end align-items-center">
                                 <button class="btn link-danger text-decoration-underline" @click="deleteComment(item.commentId)" v-if="getCookie('userId') == item.userId">Supprimer</button>
                             </div>
@@ -57,7 +58,10 @@ export default {
         return {
             article: [],
             comments: [],
-            nbOfComments: 5
+            nbOfComments: 5,
+            errorJwt: {
+                message: ""
+            }
         }
     },
     mounted() {
@@ -77,6 +81,9 @@ export default {
                 this.article = response.data[0]
             }, (response) => {
                 console.log('erreur', response)
+                if(response.body.error.name == "TokenExpiredError") {
+                    this.errorJwt.message = "Session expirée. Veuillez vous déconnecter."
+                }
             })
         },
         deleteArticle(idArticle) {
@@ -126,6 +133,12 @@ export default {
                 }
             }
             return null
+        },
+        setDate(timeStamp) {
+          const dateTime = timeStamp.split('T')
+          const date = dateTime[0]
+          const time = dateTime[1].split('.')[0]
+          return `${date} - ${time}`;
         }
     }
 }

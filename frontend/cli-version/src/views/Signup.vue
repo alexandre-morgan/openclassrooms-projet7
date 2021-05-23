@@ -95,10 +95,12 @@ export default {
       signup(e) {
         e.preventDefault();
         this.$http.post('http://localhost:3000/api/users/signup', this.user).then((response) => {
-            document.cookie = "userId=" + response.body.userId;
-            document.cookie = "token=" + response.body.token;
-            document.cookie = "firstname=" + response.body.firstname;
-            document.cookie = "lastname=" + response.body.lastname;
+                document.cookie = "userId=" + response.body.userId;
+                document.cookie = "token=" + response.body.token;
+                document.cookie = "firstname=" + response.body.firstname;
+                document.cookie = "lastname=" + response.body.lastname;
+                document.cookie = "presentLog=" + Date.now()
+                document.cookie = "path=/";
             this.$router.push("/articles")
         }).catch((error) => {
             alert(error.body.error)

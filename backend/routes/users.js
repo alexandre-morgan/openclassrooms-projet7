@@ -9,7 +9,11 @@ router.post('/signup', usersCtrl.signUp);
 
 router.post('/login', usersCtrl.logIn);
 
+router.delete('/:id', auth, usersCtrl.desactivateUser);
+
 router.put('/:id', auth, usersCtrl.updateUser);
+
+router.put('/log/:id', auth, usersCtrl.updateUserLog);
 
 router.get('/:id', auth, usersCtrl.findOne);
 

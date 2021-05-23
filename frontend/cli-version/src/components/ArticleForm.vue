@@ -1,7 +1,7 @@
 <template>
     <div class="row  mt-3 mb-3 justify-content-md-center" id="articleForm">
         <div class="card mb-3 article">
-            <form class="card-body">
+            <form class="card-body" @submit="postSelection">
                 <div class="d-flex mb-2">
                     <button class="btn choiceBtn rounded-pill" @click="displayTexteMethod" :class="{ 'active': displayTexte }">Texte</button>
                     <button class="btn choiceBtn rounded-pill" @click="displayImageMethod" :class="{ 'active': displayImage }">Image</button>
@@ -9,24 +9,19 @@
                 <label for="title" class="d-none">Title</label>
                 <input type="text" 
                 class="card-title rounded-pill form-control" 
-                placeholder="Title" 
+                placeholder="Title" required
                 v-model="article.title">
-                <div class="d-flex flex-column flex-md-row justify-content-between align-items-end" v-if="displayTexte">
-                    <label for="content" class="d-none">Description</label>
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-end">
                     <textarea name="content"
                                 id="content"
                                 cols="6" rows="3"
                                 class="form-control"
                                 formControlName="content"
-                                placeholder="Contenu de l'article"
-                                v-model="article.content">
+                                placeholder="Contenu de l'article" required
+                                v-model="article.content"  v-if="displayTexte">
                     </textarea>
-                    <button class="btn postBtn rounded-pill" @click="postTexte">Publier</button>
-                </div>
-                <div class="d-flex flex-column flex-md-row justify-content-between align-items-end" v-if="displayImage">
-                    <label for="image" class="d-none">Image</label>
-                    <input type="file" class="form-control" id="image" @change="onFileSelected">
-                    <button class="btn postBtn rounded-pill" @click="postGif">Publier</button>
+                    <input type="file" class="form-control" id="image" @change="onFileSelected" required  v-if="displayImage">
+                    <button class="btn postBtn rounded-pill" type="submit">Publier</button>
                 </div>
             </form>
         </div>
@@ -63,8 +58,12 @@ export default {
         getData() {
             this.$parent.getData(this.$parent.numberOfArticles);
         },
-        postGif(e) {
-            e.preventDefault();
+        postSelection(event){
+            event.preventDefault()
+            if(this.displayImage == true){this.postGif()}
+            else{this.postTexte()}
+        },
+        postGif() {
             var formData = new FormData();
             formData.append("title", this.article.title);
             formData.append("image", this.selectedFile, this.selectedFile.name);
@@ -81,8 +80,8 @@ export default {
                 console.log('erreur', response)
             })
         },
-        postTexte(e) {
-            e.preventDefault();
+        postTexte() {
+            
             this.$http.post('http://localhost:3000/api/articles', {
                 title: this.article.title,
                 content: this.article.content,

@@ -19,7 +19,7 @@
                     v-model="user.email">           
                 </div>
             </div>
-            <div class="row justify-content-md-center">
+            <div class="row justify-content-md-center mb-3">
                 <div class="col-8">
                     <input type="password" 
                     class="form-control input-login rounded-pill" 
@@ -31,7 +31,12 @@
                     v-model="user.password">
                 </div>
             </div>
-            <div class="row justify-content-md-center mt-3">
+            <div class="row justify-content-md-center mb-3">
+                <div class="alert alert-danger col-8" role="alert" v-if="this.errorDeleteUser.active">
+                    {{ this.errorDeleteUser.message }}
+                </div>
+            </div>
+            <div class="row justify-content-md-center mb-3">
                 <div class="col-8">
                     <div class="row align-items-center">
                         <div class="col-sm-4 ">
@@ -62,6 +67,10 @@ export default {
         user: {
           email: '',
           password: ''
+        },
+        errorDeleteUser: {
+            active: false,
+            message: ""
         }
       }
     },
@@ -73,10 +82,13 @@ export default {
                 document.cookie = "token=" + response.body.token;
                 document.cookie = "firstname=" + response.body.firstname;
                 document.cookie = "lastname=" + response.body.lastname;
+                document.cookie = "lastLog=" + response.body.lastLog;
+                document.cookie = "presentLog=" + Date.now();
                 document.cookie = "path=/";
             this.$router.push("/articles")
-            }).catch((error) => {
-                alert(error.body.error)
+            }).catch((response) => {
+                this.errorDeleteUser.active = true;
+                this.errorDeleteUser.message =response.body.error;
             })
         }
     }
@@ -100,7 +112,6 @@ export default {
     padding-top: 6px;
     padding-bottom: 6px;
     padding-left: 15px;
-    margin-top: 3rem;
 }
 .btn-login {
   font-weight: 900;

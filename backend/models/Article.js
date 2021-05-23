@@ -52,6 +52,5 @@ class Article {
             let sqlQuery = `DELETE FROM Articles WHERE idArticle = ${id}`;
             return executeSql(sqlQuery);
         };
-        
 }
 module.exports = Article;

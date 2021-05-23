@@ -8,6 +8,8 @@ class User {
         dateOfCreation = '';
         lastname = '';
         firstname = '';
+        isActive = 1;
+        lastLog = 0;
 
         constructor(data = null) {
             if(data != null) {
@@ -15,12 +17,13 @@ class User {
                 if(data.password) this.password = data.password;
                 if(data.lastname) this.lastname = data.lastname;
                 if(data.firstname) this.firstname = data.firstname;
+                if(data.lastLog) this.lastLog = data.lastLog;
             }
         };
 
         addUser() {
-            let sqlQuery = `INSERT INTO users (userId, email, password, dateOfCreation, lastname, firstname) 
-            VALUES (NULL, "${this.email}", "${this.password}", NOW(), "${this.lastname}","${this.firstname}")`;
+            let sqlQuery = `INSERT INTO users (userId, email, password, dateOfCreation, lastname, firstname, isActive) 
+            VALUES (NULL, "${this.email}", "${this.password}", NOW(), "${this.lastname}","${this.firstname}", 1)`;
             return executeSql(sqlQuery);
         }
         findOne() {
@@ -31,9 +34,21 @@ class User {
             let sqlQuery = `SELECT * FROM users WHERE userId = "${userId}" `;
             return executeSql(sqlQuery);
         }    
-        updateUser(userIdt) {
-            let sqlQuery = `UPDATE Users SET firstname="${this.firstname}", lastname="${this.lastname}", email="${this.email}" WHERE userId = ${userIdt}`;
+        updateUser(userId) {
+            let sqlQuery = `UPDATE Users SET firstname="${this.firstname}", lastname="${this.lastname}", email="${this.email}" WHERE userId = ${userId}`;
             return executeSql(sqlQuery);
-        }   
+        }
+        updateUserWPassword(userId) {
+            let sqlQuery = `UPDATE Users SET firstname="${this.firstname}", lastname="${this.lastname}", email="${this.email}", password="${this.password}" WHERE userId = ${userId}`;
+            return executeSql(sqlQuery);
+        }  
+        updateUserLog(userId) {
+            let sqlQuery = `UPDATE Users SET lastLog="${this.lastLog}" WHERE userId = ${userId}`;
+            return executeSql(sqlQuery);
+        } 
+        desactivateUser(userId) {
+            let sqlQuery = `UPDATE Users SET isActive=0 WHERE userId = ${userId}`;
+            return executeSql(sqlQuery); 
+        } 
 }
 module.exports = User;
