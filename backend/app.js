@@ -13,8 +13,6 @@ const helmet = require('helmet');
 const sanitizer = require('express-html-sanitizer');
 const sanitizeReqBody = sanitizer();
 
-const articlesRRoutes = require('./routes/articleR');
-const articles9Routes = require('./routes/article9');
 const articlesRoutes = require('./routes/article');
 const usersRoutes = require('./routes/users');
 const commentsRoutes = require('./routes/comments');
@@ -38,10 +36,6 @@ app.use(helmet());
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // Routes
-app.use('/api/articlesR', articlesRRoutes);
-
-app.use('/api/articles9', articles9Routes);
-
 app.use('/api/articles', articlesRoutes);
 
 app.use('/api/comments', commentsRoutes);

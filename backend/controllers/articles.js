@@ -40,8 +40,8 @@ exports.addArticle = (req, res, next) => {
     if(req.body.isGif == 1) {
         articleObject.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
     } else {
-        let contentInt1 = req.body.content.replaceAll(`"`,`""`)
-        articleObject.content = contentInt1;
+        let formatedContent = req.body.content.replaceAll(`"`,`""`)
+        articleObject.content = formatedContent;
     }
     articleObject.addArticle().then((article) => {
         res.status(200).json(article);

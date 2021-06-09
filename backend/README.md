@@ -1,11 +1,11 @@
 # Openclassrooms - Formation développeur web - projet 7 :         GROUPOMANIA
 
-#### &nbsp; VOUS VOICI DANS LA PARTIE FRONTEND :
+#### &nbsp; VOUS VOICI DANS LA PARTIE BACKEND :
 * Ouvrir le terminal sur ce dossier
 * Installer les dépendances à l'aide de la commande suivante (sur le terminal) : 
 * `npm install`
 * Lancer le server :
-* `npm run serve`
+* `npm start`
 
 #### &nbsp; ACCÈS A L'APPLICATION :
 * Rendez-vous sur votre navigateur :
