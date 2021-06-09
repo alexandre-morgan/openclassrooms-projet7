@@ -19,7 +19,7 @@ NOTES :
 * `npm start`
 
 #### &nbsp; FRONTEND :
-* Ouvrir le terminal sur ce dossier
+* Ouvrir le terminal sur le dossier ./FRONTEND/CLI-VERSION
 * Installer les dépendances à l'aide de la commande suivante (sur le terminal) : 
 * `npm install`
 * Lancer le server :
