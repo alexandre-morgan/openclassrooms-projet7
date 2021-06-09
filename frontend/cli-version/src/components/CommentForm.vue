@@ -1,7 +1,7 @@
 <template>
     <div class="row  mt-3 mb-3 justify-content-md-center" id="commentForm">
         <div class="card mb-3 article">
-            <form class="card-body">
+            <form class="card-body"  @submit="postComment">
                 <label for="content" class="d-none">Commentaires</label>
                 <textarea name="content"
                             id="content"
@@ -9,10 +9,11 @@
                             class="form-control"
                             formControlName="content"
                             placeholder="Laisser un commantaire"
+                            Required
                             v-model="comment.content">
                 </textarea>
                 <div class="d-flex justify-content-end mt-3">
-                    <button class="btn postBtn rounded-pill" @click="postComment">Publier</button>
+                    <button class="btn postBtn rounded-pill" type="submit">Publier</button>
                 </div>
             </form>
         </div>
@@ -70,25 +71,24 @@ export default {
 
 
 <style scoped lang="scss">
+@import "../styles/_variables.scss";
     .article {
-        background-color:#EFEAE4 ;
-        padding-left: 3rem;
-        padding-right: 3rem;
+        background-color: $article-color ;
         border-radius: 5px;
-        border:#EFEAE4;
-        box-shadow: #E7E1D8 2px 2px;
+        border: $article-color;
+        box-shadow: $article-shadow-color 2px 2px;
         text-align: start;
     }
     #commentForm .postBtn {
         font-weight: 900;
-        color: #091f43;
+        color: $base-color-1-primary;
         background-color: white;
         padding-right: 2rem;
         padding-left: 2rem;
         margin-left:2rem;
-        border: solid 2px red;
+        border: solid 2px $base-color-2-primary;
         &:hover {
-            background-color: rosybrown;
+            background-color: $base-color-2-secondary;
         }
     }
 

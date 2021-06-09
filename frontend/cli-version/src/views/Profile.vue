@@ -3,33 +3,35 @@
         <NavApp ref="foo"/>
         <div class="alert alert-danger" v-if="errorJwt.message !== ''"> {{ this.errorJwt.message }} </div>
         <div class="container-md" v-if="!(errorJwt.message !== '')">
-            <form class="row  mt-3 mb-3 justify-content-md-center" @submit="ctrlPassword">
-                <div class="text-start mb-3">
-                    <router-link :to="{ name: 'Articles'}" class="text-muted ">Précedent</router-link>
-                </div>
-                <h3 class="profile-title rounded-pill form-control">
-                    Mes informations
-                </h3>
-                <input type="text" class="rounded-pill form-control" v-model="user.firstname" required>
-                <input type="text" class="rounded-pill form-control" v-model="user.lastname" required>
-                <input type="email" class="rounded-pill form-control" v-model="user.email" required>
-                <h3 class="profile-title rounded-pill form-control mt-3">
-                    Modifier mon mot de passe
-                </h3>
-                <input type="password" placeholder="Nouveau mot de passe" class="rounded-pill form-control" value="" v-model="user.password1">
-                <input type="password" placeholder="Confirmer le nouveau mot de passe" class="rounded-pill form-control" value="" v-model="user.password2">
-                <div class="d-flex justify-content-end mb-3 mt-3">
-                    <button class="btn deletebtn rounded-pill" @click="deleteUser()">
-                        Supprimer mon compte
-                    </button>
-                    <button class="btn submitBtn rounded-pill" type="submit">
-                        Valider les informations
-                    </button>
-                </div>
-                <div class="alert alert-danger" role="alert" v-if="this.error.active">
-                    {{ this.error.message }}
-                </div>
-            </form>
+            <div class="row mt-3 mb-3 justify-content-md-center">
+                <form class="col-lg-8" @submit="ctrlPassword">
+                    <div class="text-start mb-3">
+                        <router-link :to="{ name: 'Articles'}" class="text-muted ">Précedent</router-link>
+                    </div>
+                    <h3 class="profile-title rounded-pill form-control">
+                        Mes informations
+                    </h3>
+                    <input type="text" class="rounded-pill form-control" v-model="user.firstname" required>
+                    <input type="text" class="rounded-pill form-control" v-model="user.lastname" required>
+                    <input type="email" class="rounded-pill form-control" v-model="user.email" required>
+                    <h3 class="profile-title rounded-pill form-control mt-3">
+                        Modifier mon mot de passe
+                    </h3>
+                    <input type="password" placeholder="Nouveau mot de passe" class="rounded-pill form-control" value="" v-model="user.password1">
+                    <input type="password" placeholder="Confirmer le nouveau mot de passe" class="rounded-pill form-control" value="" v-model="user.password2">
+                    <div class="d-flex justify-content-end mb-3 mt-3">
+                        <button class="btn deletebtn rounded-pill" @click="deleteUser()">
+                            Supprimer mon compte
+                        </button>
+                        <button class="btn submitBtn rounded-pill" type="submit">
+                            Valider les informations
+                        </button>
+                    </div>
+                    <div class="alert alert-danger" role="alert" v-if="this.error.active">
+                        {{ this.error.message }}
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </template>
@@ -154,24 +156,20 @@ export default {
                 return "Email déjà utilisé par un autre utilisateur."
             }
             if(code == 10){ return "Veuillez choisir deux mots de passe identiques"}
-        },
-        howModal() {
-            this.$refs['my-modal'].show()
-        },
-        hideModal() {
-            this.$refs['my-modal'].hide()
         }
     }
 }
 </script>
 
 <style scoped lang="scss">
+@import "../styles/_variables.scss";
+
 .profile-title {
     color: white;
-    background-color: #091f43;
+    background-color: $base-color-1-primary;
 }
 #profile input {
-    border-color:#091f43;
+    border-color:$base-color-1-primary;
     border-width: 2px;
     margin-bottom: 3px;
 }
@@ -181,17 +179,30 @@ export default {
     padding-right: 2rem;
     padding-left: 2rem;
     margin-left: 2rem;
-    border: solid 2px #091f43;
+    border: solid 2px $base-color-1-primary;
+    background: linear-gradient(to right, $base-color-1-secondary 50%, white 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
+    transition: all .3s ease-out;
+    &:hover {
+        background-position: left bottom;
+    }
+
 }
 .deletebtn {
     color: #091f43;
     background-color: white;
     padding-right: 2rem;
     padding-left: 2rem;
-    border: solid 2px red;
+    border: solid 2px $base-color-2-primary;
+    background: linear-gradient(to right, $base-color-2-secondary 50%, white 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
+    transition: all .3s ease-out;
     &:hover {
-        background-color: rosybrown;
+        background-position: left bottom;
     }
+
 }
 
 

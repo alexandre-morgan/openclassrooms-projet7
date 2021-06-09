@@ -1,9 +1,11 @@
 <template>
   <div class="header-home container-fluid">
       <div class="row">
-            <div class="col">
-                <img alt="Groupomania logo" src="../assets/ivf1535-1Fichier 1.png">
-            </div>
+          <div class="col">
+            <router-link :to="{ name: 'Home'}" class="navbar-brand">
+                <img alt="Groupomania logo" src="../assets/ivf1535-1Fichier 1.png" class="img-fluid">
+            </router-link>
+          </div>
       </div>
   </div>
 </template>

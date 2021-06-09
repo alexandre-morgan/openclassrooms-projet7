@@ -4,31 +4,30 @@
         <div class="alert alert-danger" v-if="errorJwt.message !== ''"> {{ this.errorJwt.message }} </div>
         <div class="container-md" v-if="!(errorJwt.message !== '')">
             <div class="row  mt-3 mb-3 justify-content-md-center">
-                <div class="text-start">
+                <div class="text-start previous">
                     <router-link :to="{ name: 'Articles'}" class="text-muted ">Précedent</router-link>
                 </div>
                 <div class="card mb-3 article">
                     <div class="card-body">
-                        <div class="d-flex justify-content-between pb-3">
+                        <div class="d-flex flex-column flex-md-row justify-content-between pb-3">
                             <div> {{ article.firstname }} {{ article.lastname }} </div>
                             <div><small class="text-muted">{{ article.dateOfModification }}</small></div>
                         </div>
                         <h5 class="card-title rounded">{{article.title}}</h5>
                         <img :src="article.imageUrl" class="card-img-bottom" :alt="article.title" v-if="article.isGif == 1">
-                        <p class="card-text rounded" v-if="article.isGif == 2"><pre>{{ article.content }}</pre></p>
+                        <p class="card-text rounded" v-if="article.isGif == 2">{{ article.content }}</p>
                         <div class="d-flex justify-content-end align-items-center">
                             <button class="btn link-danger text-decoration-underline" @click="deleteArticle(article.idArticle)" v-if="getCookie('userId') == article.userId">Supprimer</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <CommentForm/>
             <div v-if="comments.length !== 0">
                 <h3> {{ comments.length }} Commentaires</h3>
                 <div class="row  mt-3 mb-3 justify-content-md-center" v-for="item in comments" :key="item.commentId">
                     <div class="card mb-3 article">
                         <div class="card-body">
-                            <div class="d-flex justify-content-between pb-3">
+                            <div class="d-flex flex-column flex-md-row justify-content-between pb-3">
                                 <div> {{ item.firstname}} {{ item.lastname }} </div>
                                 <div><small class="text-muted">{{ setDate(item.dateOfModification) }}</small></div>
                             </div>
@@ -41,6 +40,7 @@
                 </div>
                 <button class="btn" @click="moreComments()" v-if="this.comments.length >= this.nbOfComments">Voir plus</button>
             </div>
+            <CommentForm/>
         </div>
     </div>
 </template>
@@ -145,13 +145,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "../styles/_variables.scss";
+
     .article {
-        background-color:#EFEAE4 ;
-        padding-left: 3rem;
-        padding-right: 3rem;
+        background-color: $article-color ;
         border-radius: 5px;
-        border:#EFEAE4;
-        box-shadow: #E7E1D8 2px 2px;
+        border:$article-color;
+        box-shadow: $article-shadow-color 2px 2px;
         text-align: start;
     }
     .card-title {
@@ -164,14 +164,14 @@ export default {
     }
     .commentBtn {
         font-weight: 900;
-        color: #091f43;
+        color: $base-color-1-primary;
         background-color: white;
         padding-right: 2rem;
         padding-left: 2rem;
         margin-left:2rem;
-        border: solid 2px red;
+        border: solid 2px $base-color-2-primary;
         &:hover {
-            background-color: rosybrown;
+            background-color: $base-color-2-secondary;
         }
     }
 </style>

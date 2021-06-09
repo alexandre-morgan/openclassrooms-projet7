@@ -4,7 +4,6 @@ const User = require('../models/user');
 const bcrypt = require('bcrypt');
 // Package pour la création et la comparaison des tokens d'authentification pour les requêtes
 const jwt = require('jsonwebtoken');
-const { response } = require('express');
 
 
 exports.signUp = (req, res, next) => {
@@ -13,11 +12,23 @@ exports.signUp = (req, res, next) => {
             email: req.body.email,
             password: hash,
             lastname: req.body.lastname,  
-            firstname: req.body.firstname
+            firstname: req.body.firstname,
+            lastLog : Date.now()
         });
         userObject.addUser()
-          .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-          .catch(error => res.status(401).json({ error: 'Utilisateur déjà utilisé.' }));
+          .then((response) => {
+              res.status(201).json({   
+                userId: response.insertId,
+                token: jwt.sign(
+                    { 
+                        userId: response.insertId,
+                    },
+                    process.env.security_token,
+                    { expiresIn: '3h' }
+                )
+        })
+          })
+          .catch(error => res.status(401).json({ error: 'Email déjà utilisé.' }));
       }).catch(error => res.status(500).json({ error }));
 };
 

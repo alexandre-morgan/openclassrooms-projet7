@@ -1,14 +1,14 @@
 <template>
     <div id="login">
         <HeaderHome/>
-        <form class="container">
-            <div class="row justify-content-md-center">
-                <div class="col-8">
+        <form class="container" @submit="login">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
                     <div class="border rounded-pill input-login input-login-title text-start">Se connecter</div>              
                 </div>
             </div>
-            <div class="row justify-content-md-center">
-                <div class="col-8">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
                     <input type="email" 
                     class="form-control input-login rounded-pill" 
                     placeholder="Email" 
@@ -16,11 +16,12 @@
                     aria-describedby="basic-addon1" 
                     id="email"
                     name="email"
+                    Required
                     v-model="user.email">           
                 </div>
             </div>
-            <div class="row justify-content-md-center mb-3">
-                <div class="col-8">
+            <div class="row justify-content-center mb-3">
+                <div class="col-md-8">
                     <input type="password" 
                     class="form-control input-login rounded-pill" 
                     placeholder="Password" 
@@ -28,22 +29,23 @@
                     aria-describedby="basic-addon1" 
                     id="password"
                     name="password"
+                    Required
                     v-model="user.password">
                 </div>
             </div>
-            <div class="row justify-content-md-center mb-3">
+            <div class="row justify-content-center">
                 <div class="alert alert-danger col-8" role="alert" v-if="this.errorDeleteUser.active">
                     {{ this.errorDeleteUser.message }}
                 </div>
             </div>
-            <div class="row justify-content-md-center mb-3">
-                <div class="col-8">
+            <div class="row justify-content-center mb-3">
+                <div class="col-md-8">
                     <div class="row align-items-center">
-                        <div class="col-sm-4 ">
+                        <div class="col-sm-4 order-2 order-sm-1">
                             <router-link :to="{ name: 'Signup'}" class="link-secondary">Créer un compte</router-link>
                         </div>
-                        <div class="col-sm-4">
-                            <button class="btn btn-login rounded-pill text-nowrap" @click="login">Se connecter</button>
+                        <div class="col-sm-4 order-1 order-sm-2">
+                            <button class="btn btn-login rounded-pill text-nowrap" type="submit">Se connecter</button>
                         </div>
                     </div>
                 </div>
@@ -84,7 +86,6 @@ export default {
                 document.cookie = "lastname=" + response.body.lastname;
                 document.cookie = "lastLog=" + response.body.lastLog;
                 document.cookie = "presentLog=" + Date.now();
-                document.cookie = "path=/";
             this.$router.push("/articles")
             }).catch((response) => {
                 this.errorDeleteUser.active = true;
@@ -97,6 +98,8 @@ export default {
 </script>
 
 <style scoped>
+@import "../styles/_variables.scss";
+
 #login {
     color: #091f43;
 }

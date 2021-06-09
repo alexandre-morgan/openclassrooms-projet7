@@ -1,7 +1,7 @@
 <template>
     <div class="row  mt-3 mb-3 justify-content-md-center" id="articleForm">
         <div class="card mb-3 article">
-            <form class="card-body" @submit="postSelection">
+            <form class="card-body" @submit="postSelection" id="form">
                 <div class="d-flex mb-2">
                     <button class="btn choiceBtn rounded-pill" @click="displayTexteMethod" :class="{ 'active': displayTexte }">Texte</button>
                     <button class="btn choiceBtn rounded-pill" @click="displayImageMethod" :class="{ 'active': displayImage }">Image</button>
@@ -20,7 +20,7 @@
                                 placeholder="Contenu de l'article" required
                                 v-model="article.content"  v-if="displayTexte">
                     </textarea>
-                    <input type="file" class="form-control" id="image" @change="onFileSelected" required  v-if="displayImage">
+                    <input type="file" class="form-control" id="inputFile" @change="onFileSelected" required  v-if="displayImage">
                     <button class="btn postBtn rounded-pill" type="submit">Publier</button>
                 </div>
             </form>
@@ -81,7 +81,6 @@ export default {
             })
         },
         postTexte() {
-            
             this.$http.post('http://localhost:3000/api/articles', {
                 title: this.article.title,
                 content: this.article.content,
@@ -101,6 +100,10 @@ export default {
         resetArticle() {
             this.article.title = "";
             this.article.content = "";
+            if(this.displayImage) {
+                const inputFile = document.getElementById('inputFile');
+                inputFile.value = null;
+            }
         },
         getCookie(key) {
             var x = document.cookie.split('; ');
@@ -119,13 +122,13 @@ export default {
 
 
 <style scoped lang="scss">
+@import "../styles/_variables.scss";
+
     .article {
-        background-color:#EFEAE4 ;
-        padding-left: 3rem;
-        padding-right: 3rem;
+        background-color:$article-color ;
         border-radius: 5px;
-        border:#EFEAE4;
-        box-shadow: #E7E1D8 2px 2px;
+        border:$article-color;
+        box-shadow: $article-shadow-color 2px 2px;
         text-align: start;
     }
     .card-title {
@@ -137,7 +140,7 @@ export default {
         background-color: white;
     }
     #articleForm .choiceBtn {
-        color: #091f43;
+        color: $base-color-1-primary;
         background-color: white;
         padding-right: 2rem;
         padding-left: 2rem;
@@ -152,13 +155,18 @@ export default {
         padding-left: 2rem;
         margin-left:2rem;
         margin-top: .5rem;
-        border: solid 2px red;
+        border: solid 2px $base-color-2-primary;
+        background: linear-gradient(to right, $base-color-2-secondary 50%, white 50%);
+        background-size: 200% 100%;
+        background-position: right bottom;
+        transition: all .3s ease-out;
         &:hover {
-            background-color: rosybrown;
+            background-position: left bottom;
         }
     }
+    
     .active{
-        background-color: #9da5b4 !important;
+        background-color: $base-color-1-secondary !important;
     }
 
 </style>

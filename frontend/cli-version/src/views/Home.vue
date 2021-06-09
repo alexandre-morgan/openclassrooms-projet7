@@ -1,12 +1,12 @@
 <template>
   <div id="home">
     <HeaderHome/>
-    <div class="container-md home">
-      <div class="row mb-3 justify-content-md-center">  
-        <div class="col-md-4">
+    <div class="container-md ">
+      <div class="row mb-3 mt-3 home justify-content-md-center align-items-center">  
+        <div class="col-md-6 mb-3">
           <router-link :to="{ name: 'Login'}" class="btn btn-lg btn-home rounded-pill text-nowrap">Se connecter</router-link>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6 mb-3">
           <router-link :to="{ name: 'Signup'}" class="btn btn-lg btn-home rounded-pill text-nowrap">Créer un compte</router-link>
         </div>
       </div>
@@ -27,11 +27,12 @@ export default {
 </script>
 
 <style scoped>
+
 #home {
   line-height: 1.5rem;
 }
 .home {
-  min-height: 100px;
+  min-height: 300px;
 }
 .btn-home {
   font-size:2rem;

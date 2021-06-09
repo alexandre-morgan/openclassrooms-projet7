@@ -41,8 +41,10 @@ export default {
                 document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
                 document.cookie = "firstname=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
                 document.cookie = "lastname=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-                document.cookie = "lastLog=" + Date.now() + "; path=/"
-                document.cookie = "path=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+                document.cookie = "lastLog=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/articles";
+                document.cookie = "presentLog=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/articles";
+                document.cookie = "lastLog=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/"
+                document.cookie = "presentLog=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
                 this.$router.push("/");     
             }, (response) => {
                 console.log('erreur', response)
@@ -54,8 +56,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+@import "../styles/_variables.scss";
+
 #navApp {
-    background-color: #091f43;
+    background-color: $base-color-1-primary;
 }
 .btn-navApp {
     background-color: white;

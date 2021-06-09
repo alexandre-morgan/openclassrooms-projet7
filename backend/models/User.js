@@ -22,8 +22,8 @@ class User {
         };
 
         addUser() {
-            let sqlQuery = `INSERT INTO users (userId, email, password, dateOfCreation, lastname, firstname, isActive) 
-            VALUES (NULL, "${this.email}", "${this.password}", NOW(), "${this.lastname}","${this.firstname}", 1)`;
+            let sqlQuery = `INSERT INTO users (userId, email, password, dateOfCreation, lastname, firstname, isActive, lastLog) 
+            VALUES (NULL, "${this.email}", "${this.password}", NOW(), "${this.lastname}","${this.firstname}", 1, ${this.lastLog})`;
             return executeSql(sqlQuery);
         }
         findOne() {

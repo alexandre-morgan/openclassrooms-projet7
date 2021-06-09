@@ -7,21 +7,34 @@
 
 
 <style lang="scss">
+@import "./styles/_variables.scss";
+
 #app {
   font-family: Avenir, Montserrat;
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: $base-color-1-primary;
 }
 
 footer {
-  color: #091f43;
+  color: $base-color-1-primary;
   font-size: 1.2rem;
-  background-color: #9da5b4;
+  background-color: $base-color-1-secondary;
   padding-top: 1em;
   padding-bottom: 1em;
+}
+p {
+  white-space: pre-line;
+  word-wrap: break-word;
+  font-family: inherit;
+}
+.article {
+  max-width: 960px;
+}
+.previous {
+  max-width: 960px;
 }
 
 </style>

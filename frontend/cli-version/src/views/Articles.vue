@@ -16,7 +16,10 @@
                             <img :src="item.imageUrl" class="card-img-bottom" :alt="item.title" v-if="item.isGif == 1">
                         </p>
                         <p class="card-text rounded" v-if="item.isGif == 2">{{ item.content }}</p>
-                        <div class="d-flex justify-content-end">
+                        <div class="d-flex justify-content-end" v-if="item.isGif == 2 && item.content.split(/\r\n|\r|\n/).length >= 2">
+                            <router-link :to="{ name: 'Article', params: { idArticle: item.idArticle }}" class="btn stretched-link commentBtn rounded-pill">Lire la suite</router-link>
+                        </div>
+                        <div class="d-flex justify-content-end" v-if="item.isGif == 1 || item.content.split(/\r\n|\r|\n/).length <= 2">
                             <router-link :to="{ name: 'Article', params: { idArticle: item.idArticle }}" class="btn stretched-link commentBtn rounded-pill">Commenter</router-link>
                         </div>
                     </div>
@@ -48,7 +51,10 @@ export default {
     mounted() {
         this.getData()
     },
-
+    updated() {
+        document.cookie = "lastLog=" + this.getCookie("presentLog");
+        document.cookie = "presentLog=" + Date.now();
+    },
     methods: {
         getData() {
             this.$http.get('http://localhost:3000/api/articles' + `?nbOfArticles=${this.numberOfArticles}`, {
@@ -76,13 +82,6 @@ export default {
                 }
             }
         },
-        getTimeStamp(completeDate){
-            const date = completeDate.split('T')[0];
-            const times = completeDate.split('T')[1].split('.')[0].split(':')
-            const time = times[0] * 3600 + times[1] * 60 + times[2]
-            const timeStamp = parseInt(Date.parse(date)) + parseInt(time)
-            return timeStamp
-        },
         getCookie(key) {
             var x = document.cookie.split('; ');
             for (const i of x) {
@@ -108,13 +107,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "../styles/_variables.scss";
+
     .article {
-        background-color:#EFEAE4 ;
-        padding-left: 3rem;
-        padding-right: 3rem;
+        background-color: $article-color ;
         border-radius: 5px;
-        border:#EFEAE4;
-        box-shadow: #E7E1D8 2px 2px;
+        border:$article-color ;
+        box-shadow: $article-shadow-color 2px 2px;
         text-align: start;
     }
     .card-title {
@@ -128,11 +127,13 @@ export default {
         background-color: white;
         padding-top: .3rem;
         padding-bottom: .3rem;
+        max-height: 100px;
+        overflow: hidden;
     }
     .commentBtn {
         font-weight: 900;
         color: white;
-        background-color: #091f43;
+        background-color: $base-color-1-primary;
         padding-right: 2rem;
         padding-left: 2rem;
     }

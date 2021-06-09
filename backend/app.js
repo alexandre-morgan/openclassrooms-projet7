@@ -6,6 +6,13 @@ const app = express();
 
 const path = require('path');
 
+// packages liés à la SECURITE
+// Setup headers
+const helmet = require('helmet'); 
+// Traiter les données pour éviter les injections SQL
+const sanitizer = require('express-html-sanitizer');
+const sanitizeReqBody = sanitizer();
+
 const articlesRRoutes = require('./routes/articleR');
 const articles9Routes = require('./routes/article9');
 const articlesRoutes = require('./routes/article');
@@ -22,6 +29,11 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Traitement de sécurité
+app.use(sanitizeReqBody);
+
+app.use(helmet());
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
