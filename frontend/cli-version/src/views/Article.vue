@@ -11,7 +11,7 @@
                     <div class="card-body">
                         <div class="d-flex flex-column flex-md-row justify-content-between pb-3">
                             <div> {{ article.firstname }} {{ article.lastname }} </div>
-                            <div><small class="text-muted">{{ article.dateOfModification }}</small></div>
+                            <div><small class="text-muted">{{ setDate(article.dateOfModification) }}</small></div>
                         </div>
                         <h5 class="card-title rounded">{{article.title}}</h5>
                         <img :src="article.imageUrl" class="card-img-bottom" :alt="article.title" v-if="article.isGif == 1">
@@ -56,7 +56,7 @@ export default {
     },
     data() {
         return {
-            article: [],
+            article: {},
             comments: [],
             nbOfComments: 5,
             errorJwt: {
@@ -135,6 +135,9 @@ export default {
             return null
         },
         setDate(timeStamp) {
+            if(!timeStamp) {
+                return ""
+            }
           const dateTime = timeStamp.split('T')
           const date = dateTime[0]
           const time = dateTime[1].split('.')[0]

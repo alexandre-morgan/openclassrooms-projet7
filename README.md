@@ -25,6 +25,16 @@ NOTES :
 * Lancer le server :
 * `npm run serve`
 
+#### &nbsp; BASE DE DONNÉES :
+* Dans le dossier MySQL à la racine du projet se trouve la sauvegarde de la base de données utilisée pour le projet.
+* Pour l'utiliser, il est nécessaire d'installer mySQL sur votre poste.
+* Puis dans un terminal, taper la commande suivante :
+* `mysql opcr_projet7 < ./cheminverslefichier/p7_opcr_am.sql`
+* Ou encore directement à partir de mySQL :
+* `USE nom_base;`
+* `SOURCE ./cheminverslefichier/p7_opcr_am.sql;`
+* Enfin, vérifier que le server mySQL est actif.
+
 #### &nbsp; ACCÈS A L'APPLICATION :
 * Rendez-vous sur votre navigateur :
 * [http://localhost:8080](http://localhost:8080)

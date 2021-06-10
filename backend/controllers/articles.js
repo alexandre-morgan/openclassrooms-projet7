@@ -40,7 +40,7 @@ exports.addArticle = (req, res, next) => {
     if(req.body.isGif == 1) {
         articleObject.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
     } else {
-        let formatedContent = req.body.content.replaceAll(`"`,`""`)
+        let formatedContent = req.body.content.replaceAll(`"`,`\\"`)
         articleObject.content = formatedContent;
     }
     articleObject.addArticle().then((article) => {
@@ -49,9 +49,10 @@ exports.addArticle = (req, res, next) => {
 };
 
 exports.updateArticle = (req, res, next) => {
+    let formatedContent = req.body.content.replaceAll(`"`,`\\"`)
     const articleObject = new Article({
         title: req.body.title,
-        content: req.body.content,
+        content: formatedContent,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     });
     articleObject.updateArticle(req.params.id).then((article) => {
