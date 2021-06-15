@@ -1,4 +1,5 @@
-const {executeSql} = require('../services/db');
+const db = require('../services/db')
+const mysql = require('mysql');
 
 class Comment {
         commentId = null;
@@ -17,25 +18,33 @@ class Comment {
         };
 
         addComment() {
+            let params = [this.content, this.idArticle, this.userId]
             let sqlQuery = `INSERT INTO Comments (commentId, content, idArticle, userId, dateOfCreation, dateOfModification) 
-            VALUES (NULL, "${this.content}", "${this.idArticle}", "${this.userId}", NOW(), NOW())`;
-            return executeSql(sqlQuery);
+            VALUES (NULL, ??, ??, ??, NOW(), NOW())`;
+            sqlQuery = db.preparer(mysql, sqlQuery, params)
+            return db.executeSql(sqlQuery);
         };
         getAllComments(idArticle, nbOfComments) {
+            let params = [idArticle, nbOfComments]
             let sqlQuery = `SELECT comments.commentId, comments.content, comments.dateOfModification, 
             comments.idArticle, comments.userId, users.firstname 
             AS firstname, users.lastname AS lastname FROM Comments 
-            INNER JOIN Users ON comments.userId = users.userId WHERE comments.idArticle = "${idArticle}" 
-            ORDER BY dateOfModification DESC LIMIT ${nbOfComments}`;
-            return executeSql(sqlQuery);
+            INNER JOIN Users ON comments.userId = users.userId WHERE comments.idArticle = ?? 
+            ORDER BY dateOfModification DESC LIMIT ?`;
+            sqlQuery = db.preparer(mysql, sqlQuery, params)
+            return db.executeSql(sqlQuery);
         };
         updateComment(commentId) {
-            let sqlQuery = `UPDATE Comments SET content="${this.content}",dateOfModification=NOW() WHERE idComments = "${commentId}"`;
-            return executeSql(sqlQuery);
+            let params = [this.content, commentId]
+            let sqlQuery = `UPDATE Comments SET content=??,dateOfModification=NOW() WHERE idComments = ?`;
+            sqlQuery = db.preparer(mysql, sqlQuery, params)
+            return db.executeSql(sqlQuery);
         }
         deleteOneComment(commentId) {
-            let sqlQuery = `DELETE FROM Comments WHERE commentId = ${commentId}`;
-            return executeSql(sqlQuery);
+            let params = [commentId]
+            let sqlQuery = `DELETE FROM Comments WHERE commentId = ?`;
+            sqlQuery = db.preparer(mysql, sqlQuery, params)
+            return db.executeSql(sqlQuery);
         }
 }
 module.exports = Comment;

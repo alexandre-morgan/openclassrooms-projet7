@@ -13,6 +13,9 @@ const helmet = require('helmet');
 const sanitizer = require('express-html-sanitizer');
 const sanitizeReqBody = sanitizer();
 
+// Configuration du fichier contenant les variables sensibles pour les accès et ainsi les cacher du code
+require('dotenv').config();
+
 const articlesRoutes = require('./routes/article');
 const usersRoutes = require('./routes/users');
 const commentsRoutes = require('./routes/comments');

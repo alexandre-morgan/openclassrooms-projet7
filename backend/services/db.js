@@ -1,16 +1,15 @@
 const mysql = require('mysql');
 
-
-
+// Connexion à la base données MySQL locale
 const db = mysql.createConnection({
 
-    host: "localhost",
+    host: process.env.host_bd,
  
-    user: "root",
+    user: process.env.id_bd,
  
-    password: "Ookk",
+    password: process.env.pwd_bd,
 
-    database:"opcr_projet7"
+    database:process.env.database_bd
  
 });
 
@@ -19,6 +18,9 @@ db.connect(function(err) {
     console.log("Connecté à la base de données MySQL!");
 });
 
+exports.db;
+
+// Configuration d'une promesse pour les requêtes SQL
 exports.executeSql = (sql) => {
     return new Promise((resolve, reject) => {
         db.query(sql, (error, data) => {
@@ -27,3 +29,10 @@ exports.executeSql = (sql) => {
         });
     });    
 };
+
+exports.preparer = function(mysql, sqlQuery, params) {
+    sqlQuery = mysql.format(sqlQuery, params)
+    .replace(/`/g, "'")
+    .replace(/'\.'/g, ".")
+    return sqlQuery
+}

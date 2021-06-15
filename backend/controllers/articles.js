@@ -1,10 +1,8 @@
 const Article = require('../models/Article');
-
 const fs = require('fs');
 
 exports.getAllArticle = (req, res, next) => {
-    const params = req.originalUrl.split("?")[1];
-    const nbOfArticles = params.split('=')[1];
+    const nbOfArticles = parseInt(req.query.nbOfArticles);
     const articleObject = new Article();
     articleObject.getAllArticle(nbOfArticles).then(articles => {
         res.status(200).json(articles)
@@ -40,19 +38,17 @@ exports.addArticle = (req, res, next) => {
     if(req.body.isGif == 1) {
         articleObject.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
     } else {
-        let formatedContent = req.body.content.replaceAll(`"`,`\\"`)
-        articleObject.content = formatedContent;
+        articleObject.content = req.body.content;
     }
     articleObject.addArticle().then((article) => {
-        res.status(200).json(article);
+        res.status(201).json(article);
     }).catch(error => res.status(400).json({ error }));
 };
 
 exports.updateArticle = (req, res, next) => {
-    let formatedContent = req.body.content.replaceAll(`"`,`\\"`)
     const articleObject = new Article({
         title: req.body.title,
-        content: formatedContent,
+        content: req.body.content,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     });
     articleObject.updateArticle(req.params.id).then((article) => {

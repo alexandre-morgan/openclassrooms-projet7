@@ -1,8 +1,7 @@
 const Comment = require('../models/Comment');
 
 exports.getAllComments = (req, res, next) => {
-    const params = req.originalUrl.split("?")[1];
-    const nbOfComments = params.split('=')[1];
+    const nbOfComments = parseInt(req.query.nbOfComments);
     const commentObject = new Comment();
     commentObject.getAllComments(req.params.id,nbOfComments).then(comments => {
         res.status(200).json(comments)
@@ -16,7 +15,7 @@ exports.addComment = (req, res, next) => {
         userId: req.body.userId   
     });
     commentObject.addComment().then((comment) => {
-        res.status(200).json(comment);
+        res.status(201).json(comment);
     }).catch(error => res.status(400).json({ error }));
 };
 

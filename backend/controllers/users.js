@@ -55,7 +55,7 @@ exports.logIn = (req, res, next) => {
                     { 
                         userId: response[0].userId,
                     },
-                    'RANDOM_TOKEN_SECRET',
+                    process.env.security_token,
                     { expiresIn: '3h' }
                   )
             });

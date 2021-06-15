@@ -1,5 +1,6 @@
 const { response } = require('express');
-const {executeSql} = require('../services/db');
+const db = require('../services/db')
+const mysql = require('mysql');
 
 class User {
         userId = null;
@@ -22,33 +23,47 @@ class User {
         };
 
         addUser() {
-            let sqlQuery = `INSERT INTO users (userId, email, password, dateOfCreation, lastname, firstname, isActive, lastLog) 
-            VALUES (NULL, "${this.email}", "${this.password}", NOW(), "${this.lastname}","${this.firstname}", 1, ${this.lastLog})`;
-            return executeSql(sqlQuery);
+            let params = [this.email, this.password, this.lastname, this.firstname, this.lastLog]
+            let sqlQuery = 'INSERT INTO users (userId, email, password, dateOfCreation, lastname, firstname, isActive, lastLog) '+
+            'VALUES (NULL, ??, ??, NOW(), ??, ??, 1, ?)';
+            sqlQuery = db.preparer(mysql, sqlQuery, params)
+            return db.executeSql(sqlQuery);
         }
         findOne() {
-            let sqlQuery = `SELECT * FROM users WHERE email = "${this.email}" `;
-            return executeSql(sqlQuery);
+            let params = [this.email]
+            let sqlQuery = 'SELECT * FROM users WHERE email = ?? ';
+            sqlQuery = db.preparer(mysql, sqlQuery, params)
+            return db.executeSql(sqlQuery);
         }
         findOneById(userId) {
-            let sqlQuery = `SELECT * FROM users WHERE userId = "${userId}" `;
-            return executeSql(sqlQuery);
+            let params = [userId]
+            let sqlQuery = 'SELECT * FROM users WHERE userId = ?? ';
+            sqlQuery = db.preparer(mysql, sqlQuery, params)
+            return db.executeSql(sqlQuery);
         }    
         updateUser(userId) {
-            let sqlQuery = `UPDATE Users SET firstname="${this.firstname}", lastname="${this.lastname}", email="${this.email}" WHERE userId = ${userId}`;
-            return executeSql(sqlQuery);
+            let params = [this.firstname, this.lastname, this.email, userId]
+            let sqlQuery = 'UPDATE Users SET firstname=??, lastname=??, email=?? WHERE userId = ?';
+            sqlQuery = db.preparer(mysql, sqlQuery, params)
+            return db.executeSql(sqlQuery);
         }
         updateUserWPassword(userId) {
-            let sqlQuery = `UPDATE Users SET firstname="${this.firstname}", lastname="${this.lastname}", email="${this.email}", password="${this.password}" WHERE userId = ${userId}`;
-            return executeSql(sqlQuery);
+            let params = [this.firstname, this.lastname, this.email, this.password, userId]
+            let sqlQuery = 'UPDATE Users SET firstname=??, lastname=??, email=??, password=?? WHERE userId = ?';
+            sqlQuery = db.preparer(mysql, sqlQuery, params)
+            return db.executeSql(sqlQuery);
         }  
         updateUserLog(userId) {
-            let sqlQuery = `UPDATE Users SET lastLog="${this.lastLog}" WHERE userId = ${userId}`;
-            return executeSql(sqlQuery);
+            let params = [this.lastLog, userId]
+            let sqlQuery = 'UPDATE Users SET lastLog=?? WHERE userId = ?';
+            sqlQuery = db.preparer(mysql, sqlQuery, params)
+            return db.executeSql(sqlQuery);
         } 
         desactivateUser(userId) {
-            let sqlQuery = `UPDATE Users SET isActive=0 WHERE userId = ${userId}`;
-            return executeSql(sqlQuery); 
+            let params = [userId]
+            let sqlQuery = 'UPDATE Users SET isActive=0 WHERE userId = ?';
+            sqlQuery = db.preparer(mysql, sqlQuery, params)
+            return db.executeSql(sqlQuery); 
         } 
 }
 module.exports = User;
